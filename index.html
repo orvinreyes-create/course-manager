@@ -139,7 +139,7 @@ th:first-child,td:first-child{text-align:left}
     </div>
     <details>
       <summary>Club distances (total yards)</summary>
-      <p class="small muted">Auto-set from your handicap. Edit to match your real numbers.</p>
+      <p class="small muted">Auto-set from your handicap, and reset whenever you change it. Edit to match your real numbers.</p>
       <div class="bag" id="bag"></div>
       <button id="resetBag" class="small" style="margin-top:8px">Reset from handicap</button>
     </details>
@@ -750,7 +750,7 @@ function init(){cv=$('#map');ctx=cv.getContext('2d');
  bag=p.bag||defaultBag(parseFloat($('#hcp').value)||0);renderBag();
  ['#hcp','#tend','#course','#tee','#seed','#wind','#autoclub','#puttmode'].forEach(q=>$(q).addEventListener('change',updateCourseBox));
  $('#bag').addEventListener('change',updateCourseBox);
- $('#resetBag').onclick=()=>{bag=defaultBag(parseFloat($('#hcp').value)||0);renderBag();updateCourseBox()};
+ $('#hcp').addEventListener('change',()=>{bag=defaultBag(parseFloat($('#hcp').value)||0);renderBag();updateCourseBox()});$('#resetBag').onclick=()=>{bag=defaultBag(parseFloat($('#hcp').value)||0);renderBag();updateCourseBox()};
  $('#picker').onclick=e=>{const b=e.target.closest('.cc');if(!b)return;$('#course').value=b.dataset.id;updateCourseBox()};$('#csort').onchange=renderPicker;
  $('#dice').onclick=()=>{$('#seed').value=1+Math.floor(Math.random()*99999);$('#course').value='random';updateCourseBox()};
  try{SND.on=localStorage.getItem('cm-snd')!=='0'}catch(e){}$('#btnSnd').textContent=SND.on?'🔊':'🔇';$('#btnSnd').onclick=toggleSound;
