@@ -245,41 +245,41 @@ const LIEADD={tee:0,fairway:0,rough:.2,deep:.45,fbunker:.4,gbunker:.15,trees:.75
 
 /* ================= courses ================= */
 const PRESETS={
- augusta:{cal:3.40,name:'Magnolia National',sub:'Inspired by Augusta National',tags:['Fast greens','Amen Corner water','Trees'],g:1.3,fw:36,r:13,windy:.8,holes:[
+ augusta:{real:[76.2,137],ease:1.14,name:'Magnolia National',sub:'Inspired by Augusta National',tags:['Fast greens','Amen Corner water','Trees'],g:1.3,fw:36,r:13,windy:.8,holes:[
   [4,445,'dR tr b2'],[5,575,'dL tr b3'],[4,350,'b4 sg'],[3,240,'b2 tr'],[4,495,'dL tr b2'],[3,180,'b1'],[4,450,'tr b5 sg'],[5,570,'dR tr b1'],[4,460,'dL tr b2'],
   [4,495,'dL tr b1'],[4,520,'dR wGL tr b1'],[3,155,'wF b3 sg'],[5,545,'dL wL wF tr b4'],[4,440,'dL tr'],[5,550,'wF tr b1'],[3,170,'wL b3'],[4,440,'tr b2'],[4,465,'dR tr b2']]},
- standrews:{cal:-3.27,name:'The Old Links',sub:'Inspired by the Old Course, St Andrews',tags:['Pot bunkers','Huge greens','Links wind'],g:1.05,fw:46,r:18,windy:1.5,holes:[
+ standrews:{real:[73.1,132],ease:0.95,name:'The Old Links',sub:'Inspired by the Old Course, St Andrews',tags:['Pot bunkers','Huge greens','Links wind'],g:1.05,fw:46,r:18,windy:1.5,holes:[
   [4,376,'wF obR bg'],[4,453,'b5 pot bg'],[4,398,'b6 pot bg'],[4,480,'b4 pot bg'],[5,568,'b7 pot bg'],[4,414,'b5 pot bg'],[4,372,'dR b4 pot'],[3,175,'b2 pot'],[4,352,'b4 pot'],
   [4,386,'b3 pot'],[3,174,'b2 pot sg'],[4,348,'b6 pot'],[4,465,'b6 pot bg'],[5,614,'obR b8 pot bg'],[4,455,'b5 pot bg'],[4,423,'obR b5 pot'],[4,495,'dR obR b2 pot'],[4,357,'obR bg']]},
- pebble:{cal:8.15,name:'Carmel Cliffs',sub:'Inspired by Pebble Beach',tags:['Ocean holes','Tiny greens'],g:1.15,fw:30,r:11,windy:1.2,holes:[
+ pebble:{real:[75.5,145],ease:1.38,name:'Carmel Cliffs',sub:'Inspired by Pebble Beach',tags:['Ocean holes','Tiny greens'],g:1.15,fw:30,r:11,windy:1.2,holes:[
   [4,380,'dR tr b2 sg'],[5,511,'b3 sg tr'],[4,404,'dL tr b3 sg'],[4,331,'wR b4 sg'],[3,195,'wR b2 sg'],[5,523,'wR b3 sg'],[3,109,'wR b5 sg'],[4,428,'wR wF b2 sg'],[4,505,'wR b2 sg'],
   [4,495,'wR b2 sg'],[4,390,'tr b3 sg'],[3,202,'b3 sg'],[4,445,'tr b3 sg'],[5,580,'dR obR tr b4 sg'],[4,397,'tr b3 sg'],[4,403,'tr b3 sg'],[3,208,'wL b4 sg'],[5,543,'dL wL b4 sg']]},
- sawgrass:{cal:2.57,name:'Stadium Marsh',sub:'Inspired by TPC Sawgrass',tags:['Island green','Water everywhere'],g:1.15,fw:32,r:13,windy:1.1,holes:[
+ sawgrass:{real:[76.8,155],ease:0.79,name:'Stadium Marsh',sub:'Inspired by TPC Sawgrass',tags:['Island green','Water everywhere'],g:1.15,fw:32,r:13,windy:1.1,holes:[
   [4,423,'dR tr b2'],[5,532,'dL tr wGR b2'],[3,177,'b2 tr'],[4,384,'wL b1 tr'],[4,471,'tr b3'],[4,393,'dR tr b2'],[4,442,'wL tr b2'],[3,237,'tr b2'],[5,583,'dR tr b4'],
-  [4,424,'dL tr b3'],[5,558,'wL b4'],[4,358,'wL b2'],[3,181,'wL b2'],[4,481,'dL wL b2'],[4,449,'tr b3'],[5,523,'dR wR b2'],[3,137,'isl'],[4,462,'dL wL tr b2']]}, pinehurst:{cal:6.44,name:'Sandhills No. 2',sub:'Inspired by Pinehurst No. 2',g:1.45,fw:40,r:12,windy:.8,tags:['Crowned greens','Sandy waste'],holes:[
+  [4,424,'dL tr b3'],[5,558,'wL b4'],[4,358,'wL b2'],[3,181,'wL b2'],[4,481,'dL wL b2'],[4,449,'tr b3'],[5,523,'dR wR b2'],[3,137,'isl'],[4,462,'dL wL tr b2']]}, pinehurst:{real:[76.4,143],ease:1.57,name:'Sandhills No. 2',sub:'Inspired by Pinehurst No. 2',g:1.45,fw:40,r:12,windy:.8,tags:['Crowned greens','Sandy waste'],holes:[
   [4,402,'b3 sg'],[4,503,'b4 sg'],[4,387,'dL b3 sg'],[4,529,'b4 sg'],[5,576,'dL b4 sg'],[3,242,'b3 sg'],[4,406,'dR b4 sg'],[4,502,'b3 sg'],[3,191,'b3 sg'],
   [5,617,'b5 sg'],[4,483,'b3 sg'],[4,484,'b3 sg'],[4,374,'b4 sg'],[4,473,'b3 sg'],[3,205,'b3 sg'],[4,528,'wF b3 sg'],[3,205,'b3 sg'],[4,451,'dR b4 sg']]},
- oakmont:{cal:7.89,name:'Church Pews',sub:'Inspired by Oakmont',g:1.45,fw:28,r:13,windy:.8,tags:['Lightning greens','Bunkers everywhere'],holes:[
+ oakmont:{real:[77.5,147],ease:1.11,name:'Church Pews',sub:'Inspired by Oakmont',g:1.45,fw:28,r:13,windy:.8,tags:['Lightning greens','Bunkers everywhere'],holes:[
   [4,482,'b4 obR'],[4,341,'b6'],[4,428,'b7'],[5,609,'b8'],[4,382,'b5'],[3,194,'b4'],[4,479,'b5'],[3,288,'b4'],[4,477,'b5 obL'],
   [4,462,'b5'],[4,379,'b4'],[5,667,'b7'],[3,183,'b4'],[4,358,'b5'],[4,500,'b6'],[3,231,'b3'],[4,313,'b6 sg'],[4,484,'b5']]},
- carnoustie:{cal:0.90,name:'Barry Burn Links',sub:'Inspired by Carnoustie',g:1.1,fw:36,r:15,windy:1.6,tags:['Links wind','Burns','Pot bunkers'],holes:[
+ carnoustie:{real:[75.1,145],ease:0.82,name:'Barry Burn Links',sub:'Inspired by Carnoustie',g:1.1,fw:36,r:15,windy:1.6,tags:['Links wind','Burns','Pot bunkers'],holes:[
   [4,396,'b4 pot'],[4,461,'b6 pot'],[4,350,'wF b3 pot'],[4,415,'b5 pot'],[4,412,'b5 pot'],[5,578,'obL b6 pot'],[4,410,'obL b3 pot'],[3,187,'b4 pot'],[4,478,'b4 pot tr'],
   [4,465,'wF b3 pot'],[4,382,'b4 pot'],[4,503,'tr b3 pot'],[3,176,'b4 pot'],[5,513,'b5 pot'],[4,472,'b4 pot'],[3,248,'b4 pot'],[4,461,'wF wL b3 pot'],[4,499,'wF wL obL b3 pot']]},
- shinnecock:{cal:7.74,name:'Shinnecock Hills Links',sub:'Inspired by Shinnecock Hills',g:1.3,fw:34,r:12,windy:1.4,tags:['Fescue','Wind','Firm greens'],holes:[
+ shinnecock:{real:[76.0,147],ease:1.16,name:'Shinnecock Hills Links',sub:'Inspired by Shinnecock Hills',g:1.3,fw:34,r:12,windy:1.4,tags:['Fescue','Wind','Firm greens'],holes:[
   [4,399,'dR b3'],[3,252,'b4'],[4,500,'b4'],[4,475,'dL b4'],[5,589,'b5'],[4,491,'b4'],[3,189,'b4 sg'],[4,439,'b3'],[4,485,'b4'],
   [4,415,'b3 sg'],[3,159,'b4 sg'],[4,469,'b3'],[4,374,'b3'],[4,519,'b3'],[4,409,'dL b4'],[5,616,'b6'],[3,180,'b4'],[4,485,'dR b3']]},
- whistling:{cal:5.95,name:'Straits Shore',sub:'Inspired by Whistling Straits',g:1.15,fw:32,r:13,windy:1.5,tags:['Lakeside','1000 bunkers','Wind'],holes:[
+ whistling:{real:[77.2,152],ease:1.14,name:'Straits Shore',sub:'Inspired by Whistling Straits',g:1.15,fw:32,r:13,windy:1.5,tags:['Lakeside','1000 bunkers','Wind'],holes:[
   [4,408,'b6 pot'],[5,593,'b7 pot'],[3,181,'wL b6 pot'],[4,489,'wL b6 pot'],[5,603,'dR wR b6'],[4,355,'b7 pot'],[3,221,'wR b6 pot'],[4,507,'wR b5 pot'],[4,449,'dR wGL b4'],
   [4,361,'b6 pot'],[5,618,'b7 pot'],[3,163,'wR b5 pot sg'],[4,404,'wL b5 pot'],[4,373,'b6 pot'],[4,518,'b6 pot'],[5,569,'wL b6 pot'],[3,223,'wL b6 pot'],[4,520,'wF b5']]},
- bethpage:{cal:2.05,name:'Black Warning',sub:'Inspired by Bethpage Black',g:1.2,fw:30,r:13,windy:.9,tags:['Long','Trees','Big bunkers'],holes:[
+ bethpage:{real:[78.1,155],ease:1.01,name:'Black Warning',sub:'Inspired by Bethpage Black',g:1.2,fw:30,r:13,windy:.9,tags:['Long','Trees','Big bunkers'],holes:[
   [4,430,'dR tr b3'],[4,389,'dL tr b3'],[3,230,'tr b3'],[5,517,'dL tr b5'],[4,478,'dR tr b4'],[4,408,'tr b3'],[4,524,'dL tr b3'],[3,210,'wF tr b2'],[4,460,'dL tr b3'],
   [4,502,'tr b3'],[4,435,'tr b3'],[4,515,'dL tr b4'],[5,608,'tr b3'],[3,161,'tr b3 sg'],[4,478,'tr b3 sg'],[4,490,'dL tr b3'],[3,207,'tr b5'],[4,411,'tr b5']]},
- kiawah:{cal:8.25,name:'Ocean Dunes',sub:'Inspired by Kiawah Island Ocean Course',g:1.2,fw:34,r:13,windy:1.8,tags:['Brutal wind','Marsh carries','Sandy waste'],holes:[
+ kiawah:{real:[78.0,150],ease:1.57,name:'Ocean Dunes',sub:'Inspired by Kiawah Island Ocean Course',g:1.2,fw:34,r:13,windy:1.8,tags:['Brutal wind','Marsh carries','Sandy waste'],holes:[
   [4,395,'wR b3'],[5,543,'wC wL b3'],[4,390,'b4'],[4,453,'wL b3'],[3,207,'wC b2'],[4,455,'b4'],[5,527,'b3'],[3,197,'b3'],[4,464,'b3'],
   [4,439,'b4'],[5,562,'wL b3'],[4,466,'b3'],[4,404,'wL b3'],[3,213,'wR b3'],[4,421,'b4'],[5,579,'b4'],[3,223,'wC b3'],[4,505,'b4']]},
- wackwack:{cal:4.37,name:'Mandaluyong East',sub:'Inspired by Wack Wack East (Manila)',g:1.15,fw:32,r:13,windy:.7,tags:['Tree-lined','Creeks','Home soil'],holes:[
+ wackwack:{real:[73.9,132],ease:1.32,name:'Mandaluyong East',sub:'Inspired by Wack Wack East (Manila)',g:1.15,fw:32,r:13,windy:.7,tags:['Tree-lined','Creeks','Home soil'],holes:[
   [4,410,'tr b3'],[5,540,'dL tr b3'],[4,395,'tr wGR b2'],[3,185,'tr b3'],[4,430,'dR tr b3'],[4,370,'tr b2 sg'],[5,560,'tr wL b3'],[3,205,'tr wF b2'],[4,440,'dL tr b3'],
-  [4,425,'tr b3'],[3,170,'tr b3 sg'],[4,405,'dR tr b3'],[5,545,'tr wF b3'],[4,385,'tr b2'],[3,215,'tr b3'],[4,455,'dL tr wR b3'],[5,575,'tr b3'],[4,440,'tr wF b3']]},  staelena:{cal:7.39,name:'Laguna Lakes',sub:'Inspired by Sta. Elena (Makiling + Banahaw)',g:1.3,fw:36,r:14,windy:1,tags:['Water in play','Fast greens','Championship length'],holes:[   [4,375,'wR b3'],[5,620,'dL b4'],[4,455,'wL b3 sg'],[3,170,'wF b3'],[4,420,'b4'],[4,415,'dR wR b3'],[5,590,'wL b4'],[3,200,'wC b2'],[4,370,'b4 wGL'],[4,360,'dL b3'],[4,460,'wR b4'],[3,180,'wF b3'],[5,605,'b4 wL'],[4,355,'b3 sg'],[4,415,'dR b4'],[3,200,'wF b3'],[5,515,'wL b4'],[4,475,'wF wR b3']]},  sunvalley:{cal:1.25,name:'Rizal Highlands',sub:'Inspired by Sun Valley, Antipolo',g:1.1,fw:30,r:12,windy:.9,tags:['Hilly','Tree-lined','Tight'],holes:[   [4,450,'tr b2'],[4,450,'dL tr b2'],[5,460,'tr obR b3'],[3,155,'tr b2 sg'],[4,435,'dR tr b2'],[4,425,'tr obL b2'],[3,185,'tr wF b2'],[5,500,'dL tr b3'],[4,410,'tr b2'],[4,410,'tr b2'],[3,180,'tr b2 sg'],[4,355,'dR tr b2'],[5,520,'tr obR b3'],[4,380,'tr b2'],[3,185,'tr wF b2'],[4,455,'dL tr b2'],[4,450,'tr b2 sg'],[4,335,'tr b3']]},  aguinaldo:{cal:4.30,name:'Camp QC',sub:'Inspired by Camp Aguinaldo, Quezon City',g:1.25,fw:26,r:11,windy:.6,tags:['Short & tight','Mature trees','Small fast greens'],holes:[   [4,330,'tr b2'],[5,490,'dL tr b3'],[4,345,'tr wGR b2'],[3,165,'tr b2 sg'],[4,370,'tr b2'],[5,420,'dR tr b2'],[4,305,'tr wL b2'],[3,175,'tr b2 sg'],[4,335,'tr b3'],[4,330,'dR tr b2'],[3,185,'tr b2 sg'],[4,355,'tr wF b1'],[3,175,'tr b2'],[4,355,'dL tr b2'],[3,165,'tr b2 sg'],[4,320,'tr wR b2'],[3,165,'tr b2'],[4,400,'tr b3']]}
+  [4,425,'tr b3'],[3,170,'tr b3 sg'],[4,405,'dR tr b3'],[5,545,'tr wF b3'],[4,385,'tr b2'],[3,215,'tr b3'],[4,455,'dL tr wR b3'],[5,575,'tr b3'],[4,440,'tr wF b3']]},  staelena:{real:[74.0,137],ease:1.65,name:'Laguna Lakes',sub:'Inspired by Sta. Elena (Makiling + Banahaw)',g:1.3,fw:36,r:14,windy:1,tags:['Water in play','Fast greens','Championship length'],holes:[   [4,375,'wR b3'],[5,620,'dL b4'],[4,455,'wL b3 sg'],[3,170,'wF b3'],[4,420,'b4'],[4,415,'dR wR b3'],[5,590,'wL b4'],[3,200,'wC b2'],[4,370,'b4 wGL'],[4,360,'dL b3'],[4,460,'wR b4'],[3,180,'wF b3'],[5,605,'b4 wL'],[4,355,'b3 sg'],[4,415,'dR b4'],[3,200,'wF b3'],[5,515,'wL b4'],[4,475,'wF wR b3']]},  sunvalley:{real:[72.1,121],ease:1.37,name:'Rizal Highlands',sub:'Inspired by Sun Valley, Antipolo',g:1.1,fw:30,r:12,windy:.9,tags:['Hilly','Tree-lined','Tight'],holes:[   [4,450,'tr b2'],[4,450,'dL tr b2'],[5,460,'tr obR b3'],[3,155,'tr b2 sg'],[4,435,'dR tr b2'],[4,425,'tr obL b2'],[3,185,'tr wF b2'],[5,500,'dL tr b3'],[4,410,'tr b2'],[4,410,'tr b2'],[3,180,'tr b2 sg'],[4,355,'dR tr b2'],[5,520,'tr obR b3'],[4,380,'tr b2'],[3,185,'tr wF b2'],[4,455,'dL tr b2'],[4,450,'tr b2 sg'],[4,335,'tr b3']]},  aguinaldo:{real:[65.6,122],ease:1.38,name:'Camp QC',sub:'Inspired by Camp Aguinaldo, Quezon City',g:1.25,fw:26,r:11,windy:.6,tags:['Short & tight','Mature trees','Small fast greens'],holes:[   [4,330,'tr b2'],[5,490,'dL tr b3'],[4,345,'tr wGR b2'],[3,165,'tr b2 sg'],[4,370,'tr b2'],[5,420,'dR tr b2'],[4,305,'tr wL b2'],[3,175,'tr b2 sg'],[4,335,'tr b3'],[4,330,'dR tr b2'],[3,185,'tr b2 sg'],[4,355,'tr wF b1'],[3,175,'tr b2'],[4,355,'dL tr b2'],[3,165,'tr b2 sg'],[4,320,'tr wR b2'],[3,165,'tr b2'],[4,400,'tr b3']]}
 };
 const N1=['Talon','Heron','Cedar','Coral','Iron','Mango','Falcon','Stone','Pine','Tamarind','Lagoon','Summit','Narra','Molave'],N2=['Ridge','Bay','Links','Hills','Creek','Dunes','Valley','Point','Woods','Springs'];
 function randomCourse(seed){const r=mulberry32(hashStr('rc'+seed));const style=Math.floor(r()*3);const par72=r()<.7;
@@ -306,13 +306,13 @@ function toWorld(H,s,d){const n=H.segs.length;let i=0;while(i<n-1&&s>H.segs[i].c
 
 function buildHole(sp,idx,meta,mul,rng){
  const[par,baseY,fs]=sp;const f=new Set(fs.split(' ').filter(Boolean));const L=Math.round(baseY*mul);
- const r=meta.r*(f.has('sg')?.78:f.has('bg')?1.3:1)*(par===3?.9:1)*(.9+rng()*.2);
- const fw=par===3?r*2:meta.fw*(.85+rng()*.3);
+ const E=meta.ease||1;const r=meta.r*Math.sqrt(E)*(f.has('sg')?.78:f.has('bg')?1.3:1)*(par===3?.9:1)*(.9+rng()*.2);
+ const fw=par===3?r*2:meta.fw*E*(.85+rng()*.3);
  const pts=[[0,0]];const dog=f.has('dL')?-1:f.has('dR')?1:0;
  if(dog&&par>3){const c=Math.min(L-140,(215+rng()*35)*Math.min(1,mul+.08));const a=dog*(16+rng()*16)*Math.PI/180;pts.push([0,c]);pts.push([Math.sin(a)*(L-c),c+Math.cos(a)*(L-c)])}
  else pts.push([0,L]);
  const segs=[];let cum=0;for(let i=0;i<pts.length-1;i++){const[ax,ay]=pts[i],[bx,by]=pts[i+1];const len=Math.hypot(bx-ax,by-ay);segs.push({ax,ay,ux:(bx-ax)/len,uy:(by-ay)/len,len,cum});cum+=len}
- const H={par,L,pts,segs,fw,r,G:pts[pts.length-1],fwStart:Math.min(L*.38,185),ell:[],bands:[],trees:f.has('tr')?fw/2+26:null,g:meta.g*(.95+rng()*.1),flags:f,idx};
+ const H={par,L,pts,segs,fw,r,G:pts[pts.length-1],fwStart:Math.min(L*.38,185),ell:[],bands:[],trees:f.has('tr')?fw/2+26:null,g:(1+(meta.g-1)/E)*(.95+rng()*.1),flags:f,idx};
  const nb=+((fs.match(/b(\d)/)||[0,0])[1]);const pot=f.has('pot');
  const nf=par===3?0:Math.round(nb*(pot?.5:.4)),ng=nb-nf;
  for(let k=0;k<nf;k++){const sl=Math.min(L-110,(200+rng()*45)*Math.min(1,mul+.08))+(par===5&&k%2===1?170:0);if(sl>L-90)continue;
@@ -328,7 +328,7 @@ function buildHole(sp,idx,meta,mul,rng){
  for(const[t,side]of[['wGL',-1],['wGR',1]])if(f.has(t))H.bands.push({type:'water',side,off:r+5,s0:L-70,s1:L+30});
  for(const[t,side]of[['obL',-1],['obR',1]])if(f.has(t))H.bands.push({type:'ob',side,off:fw/2+34,s0:-30,s1:L+90});
  const pa=rng()*Math.PI*2,pr=Math.sqrt(rng())*r*.6;H.pin=[H.G[0]+Math.cos(pa)*pr,H.G[1]+Math.sin(pa)*pr];
- const ws=(2+rng()*13)*(meta.windy||1),wa=rng()*Math.PI*2;H.windBase=[Math.sin(wa)*ws,Math.cos(wa)*ws];
+ const ws=(2+rng()*13)*(meta.windy||1)/Math.sqrt(E),wa=rng()*Math.PI*2;H.windBase=[Math.sin(wa)*ws,Math.cos(wa)*ws];
  H.treePts=[];if(H.trees!=null){for(let s=-10;s<L+r+30;s+=7)for(const side of[-1,1])for(let k=0;k<2;k++){const d=side*(H.trees+4+rng()*26+k*14);
   if(H.bands.some(b=>b.side===side&&s>=b.s0&&s<=b.s1&&b.off<Math.abs(d)))continue;H.treePts.push([...toWorld(H,s+rng()*5,d),3+rng()*3])}}
  H.ov=obstacleVal(H);return H}
@@ -337,7 +337,7 @@ function obstacleVal(H){const f=H.flags;let v=0;
  ['wL','wR'].forEach(t=>{if(f.has(t))v+=(H.par===3?1.3:1.6)});['wGL','wGR'].forEach(t=>{if(f.has(t))v+=.8});['obL','obR'].forEach(t=>{if(f.has(t))v+=.7});
  if(f.has('tr'))v+=.35;if(f.has('dL')||f.has('dR'))v+=.2;v+=H.ell.filter(e=>e.type==='bunker').length*(f.has('pot')?.24:.12);
  if(f.has('sg'))v+=.5;v+=Math.max(0,34-H.fw)*.06;v+=Math.max(0,Math.hypot(...H.windBase)-8)*.03;if(f.has('bg'))v-=.2;v+=(H.g-1)*1.5;return v}
-function buildCourse(id,tee,seed){
+const RC={c:-3.8,b:-3.8};const ENG={hk:.7};function buildCourse(id,tee,seed){
  const meta=id==='random'?randomCourse(seed):PRESETS[id];const mul={back:1,middle:.92,forward:.84}[tee];
  const holes=meta.holes.map((sp,i)=>buildHole(sp,i,meta,mul,mulberry32(hashStr(id+':'+(id==='random'?seed:'')+':h'+i))));
  const base={3:170,4:400,5:520},scl={3:30,4:40,5:50};
@@ -346,8 +346,8 @@ function buildCourse(id,tee,seed){
  const[oddN,evenN]=sum(fr)>=sum(bk)?[fr,bk]:[bk,fr];
  [...oddN].sort((a,b)=>b.diff-a.diff).forEach((h,i)=>h.si=1+2*i);[...evenN].sort((a,b)=>b.diff-a.diff).forEach((h,i)=>h.si=2+2*i);
  const par=holes.reduce((s,h)=>s+h.par,0),yards=holes.reduce((s,h)=>s+h.L,0),ov=holes.reduce((s,h)=>s+h.ov,0);
- const cal=(meta.cal||0)*(yards/7000),cr=Math.round((yards/220+40.9+ov*.11+cal*.8)*10)/10,br=yards/160+50.7+ov*.24+cal*1.1;
- const slope=Math.max(55,Math.min(155,Math.round(5.381*(br-cr))));
+ let cr,slope;  if(meta.real){const yb=Math.round(yards/mul),dy=yb-yards;cr=Math.round((meta.real[0]-dy/220)*10)/10;slope=Math.round(meta.real[1]-dy/45)}  else{cr=Math.round((yards/220+40.9+ov*.11+RC.c)*10)/10;const br=yards/160+50.7+ov*.24+RC.b;slope=Math.max(55,Math.min(155,Math.round(5.381*(br-cr))))}
+ 
  return{id,tee,seed,name:meta.name,sub:meta.sub,holes,par,yards,cr,slope}}
 function courseHcp(hcp,c){return Math.round(hcp*c.slope/113+(c.cr-c.par))}
 function pops(si,ch){if(ch>=0)return Math.floor(ch/18)+(si<=ch%18?1:0);return si>18+ch?-1:0}
@@ -368,15 +368,15 @@ function lieAt(H,x,y){
  if(ad<=H.fw/2+20||dg<H.r+25)return'rough';
  return'deep'}
 const distPin=(x,y)=>Math.hypot(x-S.hole.pin[0],y-S.hole.pin[1]);
-function puttE(ft,fringe){return 1+(interp(PT,ft)-1)*(1+.015*S.player.hcp)*S.hole.g+(fringe?.06:0)}
+function puttE(ft,fringe){return 1+(interp(PT,ft)-1)*(1+.015*S.player.hcp*ENG.hk)*S.hole.g+(fringe?.06:0)}
 function Eyou(lie,dy){if(lie==='holed')return 0;if(lie==='green')return puttE(dy*3);if(lie==='fringe')return puttE(dy*3,true);
  return(interp(FW,dy)+(LIEADD[lie]||0))*(1+S.player.hcp/72)}
-function samplePutts(ft,E){let p1=Math.max(0,interp(MK,ft))*(1-.01*S.player.hcp);p1=Math.min(1,Math.max(p1,2-E));
+function samplePutts(ft,E){let p1=Math.max(0,interp(MK,ft))*(1-.01*S.player.hcp*ENG.hk);p1=Math.min(1,Math.max(p1,2-E));
  const x=Math.max(0,E-2+p1),p4=x>.4?(x-.4)/2:0,p3=x-2*p4,u=Math.random();return u<p1?1:u<p1+p3?3:u<p1+p3+p4?4:2}
 
 /* ================= shot model ================= */
 function simShot(st,club,aim,rng){
- const H=S.hole,P=S.player,h=Math.max(0,P.hcp),type=CT[club];
+ const H=S.hole,P=S.player,h=Math.max(0,P.hcp)*ENG.hk,type=CT[club];
  const dx=aim[0]-st.x,dy=aim[1]-st.y,D=Math.hypot(dx,dy)||1,ux=dx/D,uy=dy/D,rx=uy,ry=-ux;
  const w=H.wind,into=-(w[0]*ux+w[1]*uy),cross=w[0]*rx+w[1]*ry,wf=into>0?1-.01*into:1+.005*(-into);
  const full=P.bag[club];let power=Math.min(D/wf,full);power=Math.max(power,full*minPct(club));
