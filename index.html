@@ -103,7 +103,7 @@ details summary{cursor:pointer;font-weight:600}
 .lognote{color:var(--warn);font-size:.8rem;margin-top:2px}
 .cnote.show{opacity:1;transform:none;pointer-events:auto}.cnote.ok{border-left-color:var(--good)}
 .cnote .ci{font-size:1.1rem;line-height:1.2}.cnote b{display:block;font-weight:800;margin-bottom:1px}.cnote span{color:#c9d8ce}
-.cnote div{flex:1}.cnote button{background:transparent;border:0;color:var(--mut);padding:0 4px;font-size:1.2rem;line-height:1}
+.cnote div{flex:1}.cnote i{display:block;font-style:normal;color:var(--acc);margin-top:4px;font-weight:700}.cnote button{background:transparent;border:0;color:var(--mut);padding:0 4px;font-size:1.2rem;line-height:1}
 #hud{display:none} #gl{position:absolute;inset:0;width:100%;height:100%;display:block}
 #windfx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
 @media(max-width:900px){
@@ -445,10 +445,12 @@ function resolveShot(st,res){const H=S.hole;let lie=lieAt(H,res.x,res.y),pen=0,x
  else if(lie==='water'){pen=1;const d=dropFrom(st,x,y);x=d.x;y=d.y;lie=d.lie==='tee'?'fairway':d.lie}
  const holed=pen===0&&distPin(x,y)<.35;return{x,y,lie:holed?'holed':lie,pen,raw:lieAt(H,res.x,res.y)}}
 function catOf(l){return(l==='fairway'||l==='green'||l==='fringe'||l==='holed')?'good':l==='rough'?'rough':(l==='fbunker'||l==='gbunker')?'sand':(l==='water'||l==='ob')?'pen':'bad'}
-function evalAim(st,club,aim,n,seed){const rnd=seed!=null?mulberry32(seed):Math.random;let sum=0;const cats={good:0,rough:0,sand:0,bad:0,pen:0},pts=[];
+function evalAim(st,club,aim,n,seed){const rnd=seed!=null?mulberry32(seed):Math.random;let sum=0,po=0,pw=0,lv=0,ln=0,gr=0,fw=0;const cats={good:0,rough:0,sand:0,bad:0,pen:0},pts=[];
  for(let i=0;i<n;i++){const r=simShot(st,club,aim,rnd);const o=resolveShot(st,r);
-  const c=catOf(o.raw);cats[c]++;pts.push([r.x,r.y,c]);sum+=1+o.pen+Eyou(o.lie,distPin(o.x,o.y))}
- return{E:sum/n,cats,pts,n}}
+  const c=catOf(o.raw);cats[c]++;pts.push([r.x,r.y,c]);sum+=1+o.pen+Eyou(o.lie,distPin(o.x,o.y));
+  if(o.raw==='ob')po++;else if(o.raw==='water')pw++;
+  if(!o.pen){lv+=distPin(o.x,o.y);ln++;if(o.lie==='green'||o.lie==='holed')gr++;else if(o.lie==='fairway'||o.lie==='fringe')fw++}}
+ return{E:sum/n,cats,pts,n,po,pw,leave:ln?lv/ln:0,gr,fw}}
 function candidates(st){const H=S.hole,s0=toLocal(H,st.x,st.y).s,out=[],P=S.player;
  const dpin=distPin(st.x,st.y);
  for(const c of allowedClubs(st.lie)){const full=P.bag[c],mn=full*minPct(c),R=effTotal(st,c,[H.pin[0]-st.x,H.pin[1]-st.y]);
@@ -494,7 +496,7 @@ function hit(){if(S.busy||!S.aimSet)return;const st={...S.ball},club=S.club,aim=
   let txt=`${club} from ${LIENAME[st.lie].toLowerCase()} → `+(out.lie==='holed'?'<b>IN THE HOLE!</b>':out.pen?`${LIENAME[out.raw]}, +1 penalty`+(out.raw==='ob'?' (replay)':' (drop)'):`${LIENAME[out.lie]}, ${fmt(distPin(out.x,out.y))} y to pin`);
   if(evTxt)txt=`<b>${evTxt}.</b> `+txt;S.log.push(txt);S.logIdx=S.log.length-1;
   if(H.par>3&&shot.n===1)H.fir=out.lie==='fairway';
-  S.ball={x:out.x,y:out.y,lie:out.lie};S.caddie=null;shot.note=caddieNote(shot,yE,bE,out);if(shot.note&&!shot.note.ok)S.log[S.logIdx]+=`<div class="lognote">🧢 ${shot.note.head}. ${shot.note.body}</div>`;if(typeof document!=='undefined')setTimeout(()=>showCaddieNote(shot.note),out.lie==='holed'?0:900);if(typeof sndLand!=='undefined'){if(out.lie==='holed')sndCup();else if(out.raw!==res.ll&&(out.raw==='water'||out.raw==='fbunker'||out.raw==='gbunker'||out.raw==='trees'))sndLand(out.raw)}{const[t,c,sub]=shotCallout(st,res,out,aim);if(typeof document!=='undefined'&&out.lie!=='holed'&&out.lie!=='green'&&out.lie!=='fringe')fitView(true,()=>popText(out.x,out.y,t,c,sub));else popText(out.x,out.y,t,c,sub)}
+  S.ball={x:out.x,y:out.y,lie:out.lie};S.caddie=null;shot.note=caddieNote(shot,yE,bE,out);if(shot.note&&!shot.note.ok)S.log[S.logIdx]+=`<div class="lognote">🧢 ${shot.note.head}. ${shot.note.body}${shot.note.tip?' <b>On course:</b> '+shot.note.tip:''}</div>`;if(typeof document!=='undefined')setTimeout(()=>showCaddieNote(shot.note),out.lie==='holed'?0:900);if(typeof sndLand!=='undefined'){if(out.lie==='holed')sndCup();else if(out.raw!==res.ll&&(out.raw==='water'||out.raw==='fbunker'||out.raw==='gbunker'||out.raw==='trees'))sndLand(out.raw)}{const[t,c,sub]=shotCallout(st,res,out,aim);if(typeof document!=='undefined'&&out.lie!=='holed'&&out.lie!=='green'&&out.lie!=='fringe')fitView(true,()=>popText(out.x,out.y,t,c,sub));else popText(out.x,out.y,t,c,sub)}
   if(out.lie==='holed')return finishHole(0,null);
   if(out.lie==='green'||out.lie==='fringe')return putt();
   if(S.strokes>=H.par+5)return finishHole(null,'pickup');
@@ -695,22 +697,41 @@ function popText(x,y,text,cls,sub){if(typeof document==='undefined')return;const
  el.className='pop '+cls;el.innerHTML=text+(sub?`<small>${sub}</small>`:'');el.style.left=Math.max(70,Math.min(view.W-70,px))+'px';el.style.top=Math.max(60,py-8)+'px';
  document.getElementById('mapwrap').appendChild(el);setTimeout(()=>el.remove(),2000)}
 const pick=a=>a[Math.floor(Math.random()*a.length)];
+function clubFor(d){if(S.player&&d>S.player.bag.Dr*.92)return 'a long second';if(d<35)return d<12?'a putt or chip':'a chip';if(d<60)return 'a pitch';const bag=S.player.bag;const c=[...CLUBS].reverse().find(([n])=>bag[n]>=d*.97);return c?c[0]:'Dr'}
 function caddieNote(shot,y,b,out){const best=shot.best;if(!best||!b)return null;
- const pc=(e,k)=>Math.round(e.cats[k]/e.n*100),tr=e=>pc(e,'bad')+pc(e,'pen');
- const yP=pc(y,'pen'),bP=pc(b,'pen'),yT=tr(y),bT=tr(b),yG=pc(y,'good'),bG=pc(b,'good');
- const same=best.club===shot.club&&dist(best.aim,S.aim||best.aim)<4;
- const tgt=S.hole&&dist(best.aim,S.hole.G)<S.hole.r?'green':'fairway';
+ const P=(e,k)=>Math.round(e[k]/e.n*100),pc=(e,k)=>Math.round(e.cats[k]/e.n*100);
+ const H=S.hole,haz=(e)=>e.po>e.pw?'OB':(H.ravine?'the ravine':'the water');
+ const yPen=pc(y,'pen'),bPen=pc(b,'pen'),yTr=pc(y,'bad')+pc(y,'sand'),bTr=pc(b,'bad')+pc(b,'sand');
+ const onTgt=e=>Math.round((e.gr+e.fw)/e.n*100),yOn=onTgt(y),bOn=onTgt(b);
+ const yL=Math.round(y.leave),bL=Math.round(b.leave),dL=yL-bL,yc=clubFor(yL),bc=clubFor(bL);
  const bad=out.pen||['trees','deep','fbunker','gbunker'].includes(out.lie);
- if(shot.cost<.08){return{ok:true,head:'Good call',body:`${shot.club} there was the smart play`+(yP>0?` — penalty risk ${yP}%.`:'.')+(bad?' Bad break on the result; keep making that decision.':'')}}
- let why;
- if(yP-bP>=4)why=`cuts penalty risk from ${yP}% to ${bP}%`;
- else if(yT-bT>=7)why=`keeps it out of trees and deep rough (${yT}% → ${bT}%)`;
- else if(bG-yG>=7)why=`finds the ${tgt} more often (${yG}% → ${bG}%)`;
- else if(/lay up/.test(best.desc))why='leaves a full-swing yardage instead of a risky long one';
- else why='sets up an easier next shot';
- return{ok:false,head:`Better: ${best.club} ${best.desc}`,body:`It ${why} — worth about ${fmt(shot.cost,1)} strokes on average.`+(!bad&&shot.cost>=.25?' You got away with this one.':'')}}
+ const saved=shot.cost;
+ if(saved<.08){const lf=yc==='a long second'?'set up a long second':`left ${yc} in`;let why=yPen>=5?`It kept ${haz(y)} to ${yPen}% of your spread and ${lf}.`:`It ${lf} and kept your misses on grass.`;
+  return{ok:true,head:'Good call',body:why+(bad?' The result was a bad break — make the same decision next time.':''),tip:null}}
+ let body,tip;
+ const longer=dL>=15,shorter=dL<=-15;
+ const clear=Math.abs(yPen-bPen)>=4||Math.abs(dL)>=15||Math.abs(yOn-bOn)>=6||Math.abs(yTr-bTr)>=6;
+ if(saved<.15||!clear)return{ok:true,head:'Close call',body:`${best.club} ${best.desc} was a touch better on the numbers, but it's a coin flip — your play was reasonable.`,tip:null};
+ if(yPen-bPen>=4&&!longer){
+  const sameClub=best.club===shot.club,why2=sameClub?'':(CLUBS.findIndex(c=>c[0]===best.club)>CLUBS.findIndex(c=>c[0]===shot.club)?` The shorter club flies a tighter pattern, so fewer shots reach ${haz(y)}.`:` The extra club carries it past the trouble instead of coming up short into it.`);
+  body=`Your line put ${haz(y)} in play ${yPen}% of the time; ${best.club} ${best.desc} cuts that to ${bPen}%.`+why2+(shorter?(-dL>=30?` It costs you ${-dL} yards (${bc} next instead of ${yc}), but a penalty costs a full stroke plus the replay — the yards are cheaper.`:` You only give up ${-dL} yards.`):'');
+  tip=`If trouble covers part of your normal miss, change the club or the line so it doesn't — never pay a stroke to save 20 yards.`}
+ else if(bPen-yPen>=3&&longer){
+  body=`Yes, it brings ${haz(b)} in a bit more (${yPen}% → ${bPen}%). But it leaves ${bL} y instead of ${yL} y — ${bc} into the green instead of ${yc}. Getting ${dL} yards closer on every other swing is worth more than the occasional penalty.`;
+  tip=`A hazard that only catches your worst shot isn't a reason to lay back. Play for the shorter next shot.`}
+ else if(longer){
+  body=`It leaves you ~${bL} y — ${bc} in — instead of ${yL} y with ${yc}. ${bOn>=yOn?`It finds the short grass just as often (${bOn}%).`:`You land on short grass a bit less (${yOn}% → ${bOn}%), but the shorter approach more than makes up for it.`}`;
+  tip=`When the landing area is open, take the club that gets you closest — a shorter approach club is the biggest scoring edge you can give yourself.`}
+ else if(shorter){
+  body=`It stops short of the trouble: rough, sand and trees drop from ${yTr}% to ${bTr}%`+(yPen>bPen?` and penalties from ${yPen}% to ${bPen}%`:'')+`. ${bc} from ${bL} y on a clean lie beats ${yc} from ${yL} y when a third of those come from a bad lie.`;
+  tip=`Lay back to a distance you like from the fairway rather than bringing trouble in to gain a few yards.`}
+ else{
+  const sideAim=(()=>{const st=S.ball0||null;return null})();
+  body=`Same distance, better window: playing ${best.desc} keeps more of your spread on short grass (${yOn}% → ${bOn}%)`+(yTr>bTr?` and out of sand/trees (${yTr}% → ${bTr}%)`:'')+(yPen>bPen?`, with fewer penalties (${yPen}% → ${bPen}%)`:'')+'.';
+  tip=`Aim at the fat side of the green or fairway so your normal miss still lands on grass — the pin is only the target when there's room around it.`}
+ return{ok:false,head:`Better: ${best.club} ${best.desc}`,body:body+(!bad&&saved>=.25?' You got away with this one.':''),tip,saved}}
 function showCaddieNote(n){const el=document.getElementById('cnote');if(!el||!n)return;
- el.innerHTML=`<span class="ci">${n.ok?'✓':'🧢'}</span><div><b>${n.head}</b><span>${n.body}</span></div><button aria-label="Dismiss">×</button>`;el.className='cnote show'+(n.ok?' ok':'');el.querySelector('button').onclick=hideCaddieNote}
+ el.innerHTML=`<span class="ci">${n.ok?'✓':'🧢'}</span><div><b>${n.head}</b><span>${n.body}</span>${n.tip?`<i>On course: ${n.tip}</i>`:''}</div><button aria-label="Dismiss">×</button>`;el.className='cnote show'+(n.ok?' ok':'');el.querySelector('button').onclick=hideCaddieNote}
 function hideCaddieNote(){const el=typeof document!=='undefined'&&document.getElementById('cnote');if(el)el.className='cnote'}
 function strikeCallout(res,st){const E={top:['Topped it!','Thin one…'],fat:['Chunked it!','Fat!'],shank:['SHANK!','Hosel rocket'],slice:['Big slice!','Banana ball'],hook:['Snap hook!','Duck hook'],stay:['Still in the sand…'],skull:['Skulled it!','Bladed!']}[res.ev];
  if(E)return[pick(E),'bad'];if(st.lie==='gbunker')return['Nice splash','good'];return[pick(['Solid strike','Good contact','Flushed it']),'strike']}
