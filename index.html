@@ -106,7 +106,7 @@ details summary{cursor:pointer;font-weight:600}
 .lognote{color:var(--warn);font-size:.8rem;margin-top:2px}
 .cnote.show{opacity:1;transform:none;pointer-events:auto}.cnote.ok{border-left-color:var(--good)}
 .cnote .ci{font-size:1.1rem;line-height:1.2}.cnote b{display:block;font-weight:800;margin-bottom:1px}.cnote span{color:#c9d8ce}
-.cnote div{flex:1}.cnote i{display:block;font-style:normal;color:var(--acc);margin-top:4px;font-weight:700}.cnote button{background:transparent;border:0;color:var(--mut);padding:0 4px;font-size:1.2rem;line-height:1}
+.cnote div{flex:1}.cnote i{display:block;font-style:normal;color:var(--acc);margin-top:4px;font-weight:700}.cnote .rehit{margin-top:6px;font-size:.85rem;padding:.3em .7em;color:var(--acc);border-color:var(--acc)}.cnote .x{background:transparent;border:0;color:var(--mut);padding:0 4px;font-size:1.2rem;line-height:1}
 #hud{display:none} #gl{position:absolute;inset:0;width:100%;height:100%;display:block}
 #windfx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
 @media(max-width:900px){
@@ -231,7 +231,7 @@ th:first-child,td:first-child{text-align:left}
       <div class="legend small" id="legend"></div>
       <div class="row between" style="margin-top:6px;flex-wrap:nowrap">
         <div><span class="muted small">Exp. strokes to hole out</span><div class="big" id="eStr"></div></div>
-        <div class="row" style="flex-wrap:nowrap"><button id="btnDet" class="mobile-only" title="More details">⋯</button><button id="btnCaddie" title="Show the best option found">Caddie</button><button class="primary hitbtn" id="btnHit">Hit ▶</button></div>
+        <div class="row" style="flex-wrap:nowrap"><button id="btnDet" class="mobile-only" title="More details">⋯</button><button id="btnRehit" title="Rehit the previous shot with the caddie's club and aim">↺</button><button id="btnCaddie" title="Show the best option found">Caddie</button><button class="primary hitbtn" id="btnHit">Hit ▶</button></div>
       </div>
       <div class="small muted" id="caddieMsg"></div>
     </div>
@@ -487,7 +487,7 @@ function startRound(){
  S.course.holes.forEach(h=>{h.pops=pops(h.si,S.ch);h.wind=P.wind?h.windBase:[0,0]});
  S.scores=[];S.shots=[];loadHole(0)}
 function freeHole(H){if(!H)return;for(const k of['terr','terr3']){if(H[k]){try{H[k].c.width=H[k].c.height=0}catch(e){}H[k]=null}}}
-function loadHole(i){hideCaddieNote();if(S.hole&&S.course&&S.course.holes[i]!==S.hole)freeHole(S.hole);S.hi=i;S.hole=S.course.holes[i];S.ball={x:0,y:0,lie:'tee'};S.strokes=0;S.log=[];S.caddie=null;S.trace=null;S.ghost=null;if(S.player.shadow){const H0=S.hole;if(typeof document==='undefined')S.ghost=shadowPlay(H0);else setTimeout(()=>{if(S.hole===H0&&!S.ghost){S.ghost=shadowPlay(H0);if(typeof draw!=='undefined')draw()}},30)}suggest();if(typeof setWind!=='undefined')setWind();if(typeof document!=='undefined'){fitView();refresh()}}
+function loadHole(i){hideCaddieNote();if(S.hole&&S.course&&S.course.holes[i]!==S.hole)freeHole(S.hole);S.hi=i;S.hole=S.course.holes[i];S.ball={x:0,y:0,lie:'tee'};S.strokes=0;S.log=[];S.caddie=null;S.undo=null;S.trace=null;S.ghost=null;if(S.player.shadow){const H0=S.hole;if(typeof document==='undefined')S.ghost=shadowPlay(H0);else setTimeout(()=>{if(S.hole===H0&&!S.ghost){S.ghost=shadowPlay(H0);if(typeof draw!=='undefined')draw()}},30)}suggest();if(typeof setWind!=='undefined')setWind();if(typeof document!=='undefined'){fitView();refresh()}}
 function suggest(){if(S.player&&S.player.autoClub===false){const cl=allowedClubs(S.ball.lie);if(!cl.includes(S.club))S.club=cl[0];S.aimSet=false;S.aim=[...S.hole.pin];snapAim();return}
  const st=S.ball,H=S.hole,cl=allowedClubs(st.lie),dp=distPin(st.x,st.y),bag=S.player.bag;
  const pinDir=[H.pin[0]-st.x,H.pin[1]-st.y];const w=H.wind,dd=Math.hypot(...pinDir)||1,into=-(w[0]*pinDir[0]+w[1]*pinDir[1])/dd,wf=into>0?1-.01*into:1+.005*(-into);
@@ -499,13 +499,14 @@ function suggest(){if(S.player&&S.player.autoClub===false){const cl=allowedClubs
 function refresh(){if(typeof document==="undefined")return;S.eval=S.aimSet?evalAim(S.ball,S.club,S.aim,250):null;renderPanel();draw()}
 function hit(){if(S.busy||!S.aimSet)return;const st={...S.ball},club=S.club,aim=[...S.aim];
  if(!allowedClubs(st.lie).includes(club))return;
+ {const H=S.hole;S.undo={hi:S.hi,ball:st,strokes:S.strokes,log:[...S.log],logIdx:S.logIdx,shots:S.shots.length,scores:S.scores.length,fir:H.fir,gir:H.gir,best:null}}
  const ev=S.eval||evalAim(st,club,aim,250),best=bestOption(st,120);const yE=best?evalAim(st,club,aim,120,best.seed+1):ev,ce=yE.E;const bE=best?evalAim(st,best.club,best.aim,120,best.seed+1):null;const bS=S.player.shadow&&best?withHcp(S.player.shadow.h,()=>bestOption(st,80)):null;
  const dp=distPin(st.x,st.y),Eb=Eyou(st.lie,dp),res=simShot(st,club,aim,Math.random),out=resolveShot(st,res);if(typeof sndStrike!=='undefined')sndStrike(club,st.lie,res.ev);
  const apply=()=>{const H=S.hole;S.strokes+=1+out.pen;
   const Ea=Eyou(out.lie,distPin(out.x,out.y)),sg=Eb-Ea-1-out.pen;
   const cat=(st.lie==='tee'&&H.par>3)?'Off the tee':dp>40?'Approach':'Short game';
   const shot={hole:S.hi+1,n:S.shots.filter(s=>s.hole===S.hi+1).length+1,club,fromLie:st.lie,dp,sg,cat,risk:ev.cats.pen/ev.n,E:ce,best,cost:best?Math.max(0,ce-best.E):0,G:bS?best.E-bS.E:0,Eopt:best?best.E:ce,Esh:bS?bS.E:null,pen:out.pen,to:out.lie,raw:out.raw,ev:res.ev,leave:distPin(out.x,out.y),lat:(()=>{const ax=aim[0]-st.x,ay=aim[1]-st.y,L=Math.hypot(ax,ay)||1;return((res.x-st.x)*ay-(res.y-st.y)*ax)/L})()};
-  S.shots.push(shot);
+  S.shots.push(shot);if(S.undo)S.undo.best=best;
   const evTxt={top:'Topped it',fat:'Hit it fat',shank:'Shank!',slice:'Big slice',hook:'Snap hook',stay:'Left it in the bunker',skull:'Skulled it'}[res.ev];
   let txt=`${club} from ${LIENAME[st.lie].toLowerCase()} → `+(out.lie==='holed'?'<b>IN THE HOLE!</b>':out.pen?`${LIENAME[out.raw]}, +1 penalty`+(out.raw==='ob'?' (replay)':' (drop)'):`${LIENAME[out.lie]}, ${fmt(distPin(out.x,out.y))} y to pin`);
   if(evTxt)txt=`<b>${evTxt}.</b> `+txt;S.log.push(txt);S.logIdx=S.log.length-1;
@@ -529,7 +530,7 @@ function finishHole(putts,flag){const H=S.hole;const pp=H.par+H.pops;
  let score=flag==='pickup'?pp+2:S.strokes+putts;const adj=Math.min(score,pp+2);
  S.scores.push({hole:S.hi+1,par:H.par,si:H.si,pops:H.pops,yards:H.L,score,adj,putts:putts??0,fir:H.fir,gir:!!H.gir,pens:S.shots.filter(s=>s.hole===S.hi+1).reduce((a,s)=>a+(s.pen||0),0),pickup:flag==='pickup'});
  shadowHole(S.scores[S.scores.length-1]);
- if(typeof document!=='undefined'){renderPanel();draw();setTimeout(holeModal,1300)}}
+ if(typeof document!=='undefined'){renderPanel();draw();S.modalT=setTimeout(holeModal,1300)}}
 
 function shadowHole(rec){if(!S.player.shadow)return;const H=S.hole;if(!S.ghost)S.ghost=shadowPlay(H);const hs=S.shots.filter(s=>s.hole===rec.hole);
  hs.forEach((s,i)=>{s.skill=(s.G||0)-(hs[i+1]?hs[i+1].G||0:0)});const f=hs[0]||{};
@@ -635,7 +636,7 @@ function renderPanel(){const H=S.hole,P=S.player,b=S.ball,done=S.scores.length>S
   $('#eStr').innerHTML=`${fmt(e.E,2)} <span class="small muted">from here ${fmt(Eyou(b.lie,dp),2)}</span>`}
  else{$('#bars').innerHTML='';$('#legend').innerHTML=done?'':'<b>Tap the map to choose your target.</b> Odds and dispersion appear once you commit to a line.';$('#eStr').textContent='—'}
  $('#caddieMsg').innerHTML=S.caddie?`Caddie: <b>${S.caddie.club}</b> ${S.caddie.desc} — expected ${fmt(S.caddie.E,2)}`:'';
- $('#btnHit').disabled=done||!al.includes(S.club)||!S.aimSet;$('#btnCaddie').disabled=done;
+ $('#btnHit').disabled=done||!al.includes(S.club)||!S.aimSet;$('#btnCaddie').disabled=done;$('#btnRehit').disabled=!canRehit();
  $('#log').innerHTML=S.log.map(t=>`<li>${t}</li>`).join('');$('.logcard').scrollTop=1e5}
 
 function holeModal(){const s=S.scores[S.scores.length-1],pp=s.par+s.pops,d=s.score-pp;
@@ -647,7 +648,8 @@ function holeModal(){const s=S.scores[S.scores.length-1],pp=s.par+s.pops,d=s.sco
  <ul>${S.log.map(t=>`<li>${t}</li>`).join('')}</ul>
  <p class="small">Decision cost this hole: <b>${fmt(cost,2)}</b> strokes${worst&&worst.cost>.08?` — biggest on shot ${worst.n}: ${worst.club} (exp ${fmt(worst.E,2)}) vs ${worst.best.club} ${worst.best.desc} (exp ${fmt(worst.best.E,2)})`:' — solid choices.'}</p>
  ${s.sh?`<p class="small shv">Shadow (${S.player.shadow.h} hcp): <b>${fmt(s.sh.score,S.player.puttMode==='exp'?2:0)}</b>${s.sh.pens?` · ${s.sh.pens} penalty`:''} · expected ${fmt(s.shE,1)} vs your ${fmt(s.youOpt,1)} with the caddie's choices.</p>`:''}
- <div class="row"><button class="primary" id="mNext">${last?'Round summary':'Next hole ▶'}</button></div>`);
+ <div class="row"><button class="primary" id="mNext">${last?'Round summary':'Next hole ▶'}</button>${canRehit()?'<button id="mRehit">↺ Rehit last shot</button>':''}</div>`);
+ if($('#mRehit'))$('#mRehit').onclick=rehit;
  $('#mNext').onclick=()=>{closeModal();if(last)debrief();else loadHole(S.hi+1)}}
 
 function scorecardHTML(){const sc=S.scores,c=S.course,ex=S.player.puttMode==='exp'?1:0;const rows=c.holes.map((h,i)=>{const s=sc[i];
@@ -788,8 +790,16 @@ function caddieNote(shot,y,b,out){const best=shot.best;if(!best||!b)return null;
   tip=`Aim at the fat side of the green or fairway so your normal miss still lands on grass — the pin is only the target when there's room around it.`}
  return{ok:false,head:`Better: ${best.club} ${best.desc}`,body:body+(!bad&&saved>=.25?' You got away with this one.':''),tip,saved}}
 function showCaddieNote(n){const el=document.getElementById('cnote');if(!el||!n)return;
- el.innerHTML=`<span class="ci">${n.ok?'✓':'🧢'}</span><div><b>${n.head}</b><span>${n.body}</span>${n.tip?`<i>On course: ${n.tip}</i>`:''}</div><button aria-label="Dismiss">×</button>`;el.className='cnote show'+(n.ok?' ok':'');el.querySelector('button').onclick=hideCaddieNote}
+ el.innerHTML=`<span class="ci">${n.ok?'✓':'🧢'}</span><div><b>${n.head}</b><span>${n.body}</span>${n.tip?`<i>On course: ${n.tip}</i>`:''}${!n.ok&&canRehit()?'<button class="rehit">↺ Try the caddie\'s play</button>':''}</div><button class="x" aria-label="Dismiss">×</button>`;el.className='cnote show'+(n.ok?' ok':'');el.querySelector('.x').onclick=hideCaddieNote;const r=el.querySelector('.rehit');if(r)r.onclick=rehit}
 function hideCaddieNote(){const el=typeof document!=='undefined'&&document.getElementById('cnote');if(el)el.className='cnote'}
+// Rewind the last full shot and set up the caddie's club and aim so you can try it instead. The rehit replaces the original.
+function canRehit(){return !!(S.undo&&S.undo.hi===S.hi&&!S.busy)}
+function rehit(){if(!canRehit())return;const u=S.undo,H=S.hole;S.undo=null;
+ clearTimeout(S.modalT);if(typeof closeModal!=='undefined'&&typeof document!=='undefined')closeModal();hideCaddieNote();
+ S.ball={...u.ball};S.strokes=u.strokes;S.log=u.log;S.logIdx=u.logIdx;S.shots.length=u.shots;S.scores.length=u.scores;H.fir=u.fir;H.gir=u.gir;S.trace=null;S.caddie=null;
+ if(u.best){S.caddie=u.best;S.club=u.best.club;S.aim=[...u.best.aim];S.aimSet=true}else suggest();
+ S.log.push('<span class="muted">↺ Rehit — previous shot replaced</span>');
+ if(typeof document!=='undefined'){fitView();refresh()}}
 function strikeCallout(res,st){const E={top:['Topped it!','Thin one…'],fat:['Chunked it!','Fat!'],shank:['SHANK!','Hosel rocket'],slice:['Big slice!','Banana ball'],hook:['Snap hook!','Duck hook'],stay:['Still in the sand…'],skull:['Skulled it!','Bladed!']}[res.ev];
  if(E)return[pick(E),'bad'];if(st.lie==='gbunker')return['Nice splash','good'];return[pick(['Solid strike','Good contact','Flushed it']),'strike']}
 function shotCallout(st,res,out,aim){const off=dist([res.x,res.y],aim),dp=distPin(out.x,out.y);
@@ -937,7 +947,7 @@ function init(){cv=$('#map');ctx=cv.getContext('2d');
  const pos=e=>{const r=cv.getBoundingClientRect();return C2W(e.clientX-r.left,e.clientY-r.top)};
  cv.addEventListener('mousemove',e=>{S.hover=pos(e);draw()});cv.addEventListener('mouseleave',()=>{S.hover=null;draw()});
  cv.addEventListener('click',e=>{if(S.busy||S.scores.length>S.hi)return;S.aim=pos(e);S.aimSet=true;S.caddie=null;{const b=S.ball,dir=[S.aim[0]-b.x,S.aim[1]-b.y],d=Math.hypot(...dir),R=effTotal(b,S.club,dir);if(d>R)S.aim=[b.x+dir[0]/d*R,b.y+dir[1]/d*R]}refresh()});
- $('#btnHit').onclick=hit;$('#btnDet').onclick=()=>$('#panel').classList.toggle('open');
+ $('#btnHit').onclick=hit;$('#btnRehit').onclick=rehit;$('#btnDet').onclick=()=>$('#panel').classList.toggle('open');
  document.addEventListener('click',e=>{const p=$('#panel');if(p.classList.contains('open')&&!p.contains(e.target))p.classList.remove('open')},true);
  $('#btnCaddie').onclick=()=>{const b=bestOption(S.ball,200);if(b){S.caddie=b;S.club=b.club;S.aim=[...b.aim];S.aimSet=true;refresh()}};
  $('#btnCard').onclick=()=>openModal(`<h2>Scorecard</h2>${scorecardHTML()}<div class="row" style="margin-top:10px"><button id="mClose">Close</button></div>`)||($('#mClose').onclick=closeModal);
