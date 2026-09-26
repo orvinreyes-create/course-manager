@@ -715,7 +715,7 @@ function holeModal(){const s=S.scores[S.scores.length-1],pp=s.par+s.pops,d=s.sco
  <ul>${S.log.map(t=>`<li>${t}</li>`).join('')}</ul>
  <p class="small">Decision cost this hole: <b>${fmt(cost,2)}</b> strokes${worst&&worst.cost>.08?` — biggest on shot ${worst.n}: ${worst.club} (exp ${fmt(worst.E,2)}) vs ${worst.best.club} ${worst.best.desc} (exp ${fmt(worst.best.E,2)})`:' — solid choices.'}</p>
  ${s.sh?`<p class="small shv">Shadow (${S.player.shadow.h} hcp): <b>${fmt(s.sh.score,S.player.puttMode==='exp'?2:0)}</b>${s.sh.pens?` · ${s.sh.pens} penalty`:''} · expected ${fmt(s.shE,1)} vs your ${fmt(s.youOpt,1)} with the caddie's choices.</p>`:''}
- <div class="row"><button class="primary" id="mNext">${last?'Round summary':'Next hole ▶'}</button>${canRehit()?'<button id="mRehit">↺ Rehit last shot</button>':''}</div>`);
+ <div class="row between">${canRehit()?'<button id="mRehit">↺ Rehit last shot</button>':'<span></span>'}<button class="primary" id="mNext">${last?'Round summary':'Next hole ▶'}</button></div>`);
  if($('#mRehit'))$('#mRehit').onclick=rehit;
  $('#mNext').onclick=()=>{closeModal();if(last)debrief();else loadHole(S.hi+1)}}
 
