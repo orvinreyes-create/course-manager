@@ -52,13 +52,26 @@ button.ghost{background:transparent;border-color:var(--line);width:40px;height:4
 .shline{display:flex;gap:8px;align-items:flex-start;font-size:.78rem;line-height:1.35;color:var(--mut,#9fb3a6);margin-top:8px;padding:8px 10px;border-radius:10px;background:rgba(185,150,255,.08);border:1px solid rgba(185,150,255,.25)}.shline b{color:#d8c9ff}.shline input{flex:0 0 auto;width:16px;height:16px;margin:2px 0 0;padding:0;accent-color:#b996ff}.shline span{flex:1}
 .gap{display:grid;grid-template-columns:1fr repeat(3,58px);gap:4px 8px;font-size:.85rem;align-items:center}.gap .h{font-size:.7rem;color:var(--mut,#9fb3a6);text-align:right}.gap .v{text-align:right;font-weight:700}.gap .t{border-top:1px solid rgba(255,255,255,.15);padding-top:4px}
 .shv{color:#cdb8ff}
+.hero{border-radius:18px;padding:18px 16px 16px;text-align:center;position:relative;overflow:hidden;border:1px solid var(--line)}
+.hero.gold{background:radial-gradient(120% 90% at 50% 0%,rgba(255,217,120,.28),rgba(76,207,143,.12) 55%,var(--card2))}
+.hero.green{background:radial-gradient(120% 90% at 50% 0%,rgba(76,207,143,.3),var(--card2) 65%)}
+.hero.blue{background:radial-gradient(120% 90% at 50% 0%,rgba(79,143,191,.3),var(--card2) 65%)}
+.hstars{display:flex;justify-content:center;gap:18px}.star{display:flex;flex-direction:column;align-items:center;gap:2px}.star span{font-size:2.1rem;line-height:1;color:rgba(255,255,255,.2)}.star.on span{color:#ffd978;text-shadow:0 0 14px rgba(255,217,120,.6);animation:pop .5s cubic-bezier(.3,1.6,.5,1) both}.star:nth-child(2).on span{animation-delay:.15s}.star:nth-child(3).on span{animation-delay:.3s}.star small{font-size:.66rem;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+.hv{font-size:1.9rem;font-weight:900;margin-top:10px;letter-spacing:-.01em}.hs{font-size:.92rem;color:var(--ink);opacity:.85;margin:4px auto 0;max-width:460px;line-height:1.4}
+.hnum{margin-top:12px;display:flex;flex-direction:column;align-items:center}.hnum b{font-size:2.4rem;line-height:1}.hnum span{font-size:.8rem;color:var(--mut)}
+.badges{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:10px}.badge{font-size:.8rem;font-weight:700;padding:5px 10px;border-radius:999px;background:var(--field);border:1px solid var(--line);color:var(--mut)}.badge.on{color:var(--ink);border-color:rgba(76,207,143,.5);background:rgba(76,207,143,.12)}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}.confetti i{position:absolute;top:-12px;width:8px;height:12px;border-radius:2px;animation:fall linear both}
+@keyframes fall{to{top:105%;transform:translateX(40px) rotate(720deg)}}
+.ret{display:flex;flex-direction:column;gap:6px;margin:8px 0}.rrow{display:grid;grid-template-columns:minmax(120px,42%) 1fr 44px;gap:8px;align-items:center;font-size:.86rem}.rrow b{text-align:right}.rb{height:12px;border-radius:6px;background:var(--field);overflow:hidden}.rb i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--acc2),var(--acc))}.rrow.top .rl{font-weight:800}.rrow.top .rb i{background:linear-gradient(90deg,#e7b04f,#ffd978)}
+.retwait{height:8px;border-radius:4px;background:var(--field);overflow:hidden}.retwait i{display:block;height:100%;background:var(--acc);transition:width .4s}
 .bagprev{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:auto}
 .bagprev div{background:var(--card);border:1px solid var(--line);border-radius:10px;text-align:center;padding:5px 0;line-height:1.15}
 .bagprev b{display:block;font-size:.72rem;color:var(--mut)}.bagprev span{font-weight:800;font-size:.9rem}
 .bagprev .cap{grid-column:1/-1;background:none;border:0;color:var(--mut);font-size:.78rem;text-align:left;padding:0}
 .ctrls{display:flex;gap:8px}.ctrls select{width:auto;flex:0 0 auto}.ctrls #dice{flex:0 0 auto}
 .seg{display:flex;flex:1;background:var(--field);border:1px solid var(--line);border-radius:12px;padding:3px}
-.seg button{flex:1;border:0;background:transparent;padding:.4em 0;border-radius:9px;color:var(--mut);font-size:.85rem;min-width:0}
+.seg button{flex:1;border:0;background:transparent;padding:.4em 2px;border-radius:9px;color:var(--mut);font-size:.8rem;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .seg button.on{background:var(--card2);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.3)}
 #setup .picker{flex:1;min-height:0;max-height:none;overflow:auto;grid-template-columns:1fr;align-content:start;scrollbar-width:thin;mask-image:linear-gradient(#000 92%,transparent)}
 @media(min-width:620px){#setup .picker{grid-template-columns:1fr 1fr}}
@@ -194,7 +207,7 @@ th:first-child,td:first-child{text-align:left}
  <div class="step hidden" id="st3">
   <div class="stephead"><button class="ghost" data-back="st2">←</button><div><div class="kicker">Step 2 of 2</div><h2>Pick a course</h2></div></div>
   <div class="ctrls">
-   <div class="seg" id="teeSeg"><button data-t="back">Back</button><button data-t="middle">Middle</button><button data-t="forward">Forward</button></div>
+   <div class="seg" id="teeSeg"><button data-t="back">Back</button><button data-t="middle">Mid</button><button data-t="forward">Fwd</button><button data-t="junior">Jr</button></div>
    <select id="csort"><option value="diff">Hardest</option><option value="easy">Easiest</option><option value="name">A–Z</option></select>
    <button id="dice" title="New random course">🎲</button>
   </div>
@@ -203,7 +216,7 @@ th:first-child,td:first-child{text-align:left}
   <button class="primary big" id="start">Tee off ⛳</button>
  </div>
  <div class="hidden">
-  <select id="course"></select><select id="tee"><option value="back">Back</option><option value="middle" selected>Middle</option><option value="forward">Forward</option></select>
+  <select id="course"></select><select id="tee"><option value="back">Back</option><option value="middle" selected>Middle</option><option value="forward">Forward</option><option value="junior">Junior</option></select>
   <input id="seed" type="number" value="1"><input id="wind" type="checkbox" checked><input id="autoclub" type="checkbox" checked>
   <select id="tend"><option value="both" selected>both</option><option value="slice">slice</option><option value="hook">hook</option></select><select id="puttmode"><option value="real" selected>real</option><option value="exp">exp</option></select>
  </div>
@@ -375,8 +388,8 @@ function obstacleVal(H){const f=H.flags;let v=0;
  ['wL','wR'].forEach(t=>{if(f.has(t))v+=(H.par===3?1.3:1.6)});['wGL','wGR'].forEach(t=>{if(f.has(t))v+=.8});['obL','obR'].forEach(t=>{if(f.has(t))v+=.7});
  if(f.has('tr'))v+=.35;if(f.has('dL')||f.has('dR'))v+=.2;v+=H.ell.filter(e=>e.type==='bunker').length*(f.has('pot')?.24:.12);
  if(f.has('sg'))v+=.5;v+=Math.max(0,34-H.fw)*.06;v+=Math.max(0,Math.hypot(...H.windBase)-8)*.03;if(f.has('bg'))v-=.2;v+=(H.g-1)*1.5;return v}
-const RC={c:-3.8,b:-3.8};const ENG={hk:.7};function buildCourse(id,tee,seed){
- const meta=id==='random'?randomCourse(seed):PRESETS[id];const mul={back:1,middle:.92,forward:.84}[tee];
+const RC={c:-3.8,b:-3.8};const ENG={hk:.7};function buildCourse(id,tee,seed,dr){
+ const meta=id==='random'?randomCourse(seed):PRESETS[id];const backY=meta.holes.reduce((a,h)=>a+h[1],0);const mul=tee==='junior'?Math.max(.3,Math.min(.84,(dr||150)*28/backY)):{back:1,middle:.92,forward:.84}[tee];
  const holes=meta.holes.map((sp,i)=>buildHole(sp,i,meta,mul,mulberry32(hashStr(id+':'+(id==='random'?seed:'')+':h'+i))));
  const base={3:170,4:400,5:520},scl={3:30,4:40,5:50};
  holes.forEach(h=>h.diff=(h.L/mul-base[h.par])/scl[h.par]+h.ov);
@@ -385,8 +398,9 @@ const RC={c:-3.8,b:-3.8};const ENG={hk:.7};function buildCourse(id,tee,seed){
  [...oddN].sort((a,b)=>b.diff-a.diff).forEach((h,i)=>h.si=1+2*i);[...evenN].sort((a,b)=>b.diff-a.diff).forEach((h,i)=>h.si=2+2*i);meta.holes.forEach((sp,i)=>{if(sp[3])holes[i].si=sp[3]});
  const par=holes.reduce((s,h)=>s+h.par,0),yards=holes.reduce((s,h)=>s+h.L,0),ov=holes.reduce((s,h)=>s+h.ov,0);
  let cr,slope;  if(meta.real){const yb=Math.round(yards/mul),dy=yb-yards;cr=Math.round((meta.real[0]-dy/220)*10)/10;slope=Math.round(meta.real[1]-dy/45)}  else{cr=Math.round((yards/220+40.9+ov*.11+RC.c)*10)/10;const br=yards/160+50.7+ov*.24+RC.b;slope=Math.max(55,Math.min(155,Math.round(5.381*(br-cr))))}
- 
+ if(tee==='junior'){const m=buildCourse(id,'middle',seed);cr=Math.round((par+(m.cr-m.par)+JR.cr)*10)/10;slope=Math.max(55,Math.round(m.slope*JR.sl))}
  return{id,tee,seed,name:meta.name,sub:meta.sub,holes,par,yards,cr,slope}}
+const JR={cr:3.5,sl:.55};
 function courseHcp(hcp,c){return Math.round(hcp*c.slope/113+(c.cr-c.par))}
 function pops(si,ch){if(ch>=0)return Math.floor(ch/18)+(si<=ch%18?1:0);return si>18+ch?-1:0}
 
@@ -406,18 +420,21 @@ function lieAt(H,x,y){
  if(ad<=H.fw/2+20||dg<H.r+25)return'rough';
  return'deep'}
 const distPin=(x,y)=>Math.hypot(x-S.hole.pin[0],y-S.hole.pin[1]);
-function puttE(ft,fringe){return 1+(interp(PT,ft)-1)*(1+.015*S.player.hcp*ENG.hk)*S.hole.g+(fringe?.06:0)}
+function hArea(a){const P=S.player;return P.hA&&P.hA[a]!=null?P.hA[a]:P.hcp}
+function areaOf(club,power,lie){const t=CT[club];if(lie==='gbunker'||t==='wedge'||power<60)return'short';return t==='iron'?'irons':'long'}
+function puttE(ft,fringe){return 1+(interp(PT,ft)-1)*(1+.015*hArea('putt')*ENG.hk)*S.hole.g+(fringe?.06:0)}
 function Eyou(lie,dy){if(lie==='holed')return 0;if(lie==='green')return puttE(dy*3);if(lie==='fringe')return puttE(dy*3,true);
- return(interp(FW,dy)+(LIEADD[lie]||0))*(1+S.player.hcp/72)}
-function samplePutts(ft,E){let p1=Math.max(0,interp(MK,ft))*(1-.01*S.player.hcp*ENG.hk);p1=Math.min(1,Math.max(p1,2-E));
+ const P=S.player,hh=P.hA?['long','irons','short','putt'].reduce((a,k)=>a+hArea(k),0)/4:P.hcp;
+ return(interp(FW,dy*(S.dScale||1))+(LIEADD[lie]||0))*(1+hh/72)}
+function samplePutts(ft,E){let p1=Math.max(0,interp(MK,ft))*(1-.01*hArea('putt')*ENG.hk);p1=Math.min(1,Math.max(p1,2-E));
  const x=Math.max(0,E-2+p1),p4=x>.4?(x-.4)/2:0,p3=x-2*p4,u=Math.random();return u<p1?1:u<p1+p3?3:u<p1+p3+p4?4:2}
 
 /* ================= shot model ================= */
 function simShot(st,club,aim,rng){
- const H=S.hole,P=S.player,h=Math.max(0,P.hcp)*ENG.hk,type=CT[club];
+ const H=S.hole,P=S.player,type=CT[club];let h;
  const dx=aim[0]-st.x,dy=aim[1]-st.y,D=Math.hypot(dx,dy)||1,ux=dx/D,uy=dy/D,rx=uy,ry=-ux;
  const w=H.wind,into=-(w[0]*ux+w[1]*uy),cross=w[0]*rx+w[1]*ry,wf=into>0?1-.01*into:1+.005*(-into);
- const full=P.bag[club];let power=Math.min(D/wf,full);power=Math.max(power,full*minPct(club));
+ const full=P.bag[club];let power=Math.min(D/wf,full);power=Math.max(power,full*minPct(club));h=Math.max(0,hArea(areaOf(club,power,st.lie)))*ENG.hk;
  const L=LIE[st.lie]||LIE.rough;let dist=power*wf*(L.dist[0]+(L.dist[1]-L.dist[0])*rng());
  const cf={wood:1.15,hy:1.08,iron:1,wedge:.9}[type],wd=1+Math.hypot(w[0],w[1])*.012;
  let latSD=(power*(.035+.0025*h)*cf+.5+.04*h)*L.disp*wd,lonSD=(power*(.03+.0015*h)+(power<60?1+.06*h:0))*L.disp;
@@ -473,7 +490,7 @@ function bestOption(st,n){let best=null;for(const c of candidates(st)){const e=e
 
 /* ================= shadow player ================= */
 function potentialHcp(dr,i7){const hD=(268-dr)/2.6,h7=(268-i7/.65)/2.6;return Math.max(0,Math.round((hD+h7)/2))}
-function shadowFor(hcp,dr,i7){const pot=potentialHcp(dr,i7);return hcp-pot>=2?{h:pot,kind:'potential'}:{h:Math.max(0,Math.round(hcp-6)),kind:'stretch'}}
+function shadowFor(hcp,dr,i7,jr){if(jr)return{h:Math.max(0,Math.round(hcp-8)),kind:'next'};const pot=potentialHcp(dr,i7);return hcp-pot>=2?{h:pot,kind:'potential'}:{h:Math.max(0,Math.round(hcp-6)),kind:'stretch'}}
 function withHcp(h,fn){const P=S.player,o=P.hcp;P.hcp=h;try{return fn()}finally{P.hcp=o}}
 function shadowPlay(H){const sh=S.player.shadow;if(!sh)return null;return withHcp(sh.h,()=>{let st={x:0,y:0,lie:'tee'},n=0,pens=0,fir=null;const pts=[[0,0]];
  while(n<H.par+5){const b=bestOption(st,60);if(!b)break;const res=simShot(st,b.club,b.aim,Math.random),o=resolveShot(st,res);n+=1+o.pen;pens+=o.pen;st={x:o.x,y:o.y,lie:o.lie};pts.push([o.x,o.y,b.club,o.pen?o.raw:null]);if(fir===null)fir=H.par>3&&!o.pen&&(o.lie==='fairway'||o.lie==='green'||o.lie==='holed');
@@ -481,11 +498,52 @@ function shadowPlay(H){const sh=S.player.shadow;if(!sh)return null;return withHc
   if(o.lie==='green'||o.lie==='fringe'){const ft=distPin(st.x,st.y)*3,E=puttE(ft,o.lie==='fringe'),p=S.player.puttMode==='exp'?Math.round(E*100)/100:samplePutts(ft,E);return{pts,score:n+p,putts:p,pens,fir,gir:o.lie==='green'&&n<=H.par-2}}}
  return{pts,score:n+2,putts:2,pens,fir,gir:false}})}
 
+/* ================= best return per skill ================= */
+const AREAS=[['long','Driver & woods','🚀'],['irons','Irons','🎯'],['short','Wedges, chips & bunkers','🪄'],['putt','Putting','⛳']];
+function simRound(P,n,rs){S.player=P;const c=buildCourse(P.courseId,P.tee,P.seed,P.dr);S.course=c;S.dScale=P.tee==='junior'?236/P.bag.Dr:1;let tot=0;
+ for(const H of c.holes){if(rs!=null)Math.random=mulberry32(rs+H.idx*104729);S.hole=H;H.wind=P.wind?H.windBase:[0,0];let st={x:0,y:0,lie:'tee'},k=0,fin=false;
+  let y=Eyou('tee',H.L);
+  while(k<H.par+5){const b=bestOption(st,n);y+=evalAim(st,b.club,b.aim,4*n).E-Eyou(st.lie,distPin(st.x,st.y));const res=simShot(st,b.club,b.aim,Math.random),o=resolveShot(st,res);k+=1+o.pen;st={x:o.x,y:o.y,lie:o.lie};
+   if(o.lie==='holed'){fin=true;break}if(o.lie==='green'||o.lie==='fringe'){fin=true;break}}
+  tot+=fin?y:k+2+(y-y)}return tot}
+function returnSim(cfg,onProg){const v=[['base',{}],...AREAS.map(([a])=>[a,{[a]:cfg.target}]),['all',Object.fromEntries(AREAS.map(([a])=>[a,cfg.target]))]],out={},orig=Math.random;let done=0;
+ try{for(let r=0;r<cfg.R;r++)for(const[k,hA]of v){(out[k]=out[k]||[]).push(simRound({...cfg.P,hA,shadow:null},cfg.n,7919*(r+1)+cfg.salt));onProg&&onProg(++done/(cfg.R*v.length))}}finally{Math.random=orig}
+ const m=a=>a.reduce((x,y)=>x+y,0)/a.length,res={base:m(out.base),target:cfg.target,R:cfg.R,areas:[]};
+ for(const k of[...AREAS.map(a=>a[0]),'all']){const d=out.base.map((b,i)=>b-out[k][i]),md=m(d),sd=Math.sqrt(d.reduce((x,y)=>x+(y-md)**2,0)/Math.max(1,d.length-1));res.areas.push({k,save:md,se:sd/Math.sqrt(d.length)})}
+ return res}
+if(typeof document==='undefined'&&typeof self!=='undefined'&&typeof importScripts==='function')self.onmessage=e=>{const r=returnSim(e.data,p=>self.postMessage({p}));self.postMessage({done:r})};
+
+const RET_DRILL={long:`Range: 20 drivers at a 30-yard-wide window (two flags); count how many finish inside and track it. Swing at 80% — a tighter pattern is worth more than 10 yards.`,
+ irons:`Range: pick a green-sized target at 7-iron distance; hit 5 balls each with three irons and only count balls that finish inside. Track the %.`,
+ short:`Short-game area: landing-spot chips (10 each with 9-iron and wedge), then a wedge ladder to 30, 50 and 70 yards. Half your practice time goes here.`,
+ putt:`Practice green: lag ladder (10 balls each from 30, 40, 50 ft into a putter-length circle), then 3-ft circle drill until you make 10 in a row.`};
+function retTarget(P){return P.shadow?P.shadow.h:Math.max(0,Math.round(P.hcp-8))}
+function startReturns(){S.ret=null;S.retP=0;if(typeof Worker==='undefined'||typeof document==='undefined')return;const P=S.player,target=retTarget(P);
+ if(target>=P.hcp){return}
+ const key='cm-ret1:'+[P.courseId,P.tee,P.seed,P.hcp,P.dr,P.i7,target,P.wind?1:0,P.tend].join('|');S.retKey=key;
+ try{const c=JSON.parse(localStorage.getItem(key)||'null');if(c){S.ret=c;return}}catch(e){}
+ try{if(S.retW)S.retW.terminate();const src=[...document.querySelectorAll('script')].find(x=>!x.src&&!x.type).textContent;
+  const w=new Worker(URL.createObjectURL(new Blob([src],{type:'text/javascript'})));S.retW=w;
+  w.onmessage=e=>{if(e.data.p!=null){S.retP=e.data.p;updRet()}if(e.data.done){S.ret=e.data.done;w.terminate();S.retW=null;try{localStorage.setItem(key,JSON.stringify(S.ret))}catch(e){}updRet()}};
+  w.onerror=()=>{S.retErr=true;updRet()};
+  w.postMessage({P:JSON.parse(JSON.stringify({...P,shadow:null})),R:24,n:24,target,salt:hashStr(key)%1000})}catch(e){S.retErr=true}}
+function updRet(){const el=typeof document!=='undefined'&&document.getElementById('retBox');if(el)el.innerHTML=retHTML()}
+function retHTML(){const P=S.player,t=retTarget(P),lvl=P.shadow&&P.shadow.kind==='potential'?`${t} level (your potential)`:`${t} level`;
+ if(t>=P.hcp)return'';
+ const head=`<h3 style="margin-top:14px">Best return on practice</h3><p class="small muted">If just <b>one</b> part of your game reached ${lvl}, how many shots a round would it save on <b>${S.course.name}</b>? Each answer comes from simulating 24 rounds here with the caddie's choices.</p>`;
+ if(S.retErr)return head+'<p class="small">Couldn\'t run the simulation on this device.</p>';
+ if(!S.ret)return head+`<div class="retwait"><i style="width:${Math.round((S.retP||0)*100)}%"></i></div><p class="small muted">Simulating… ${Math.round((S.retP||0)*100)}%</p>`;
+ const r=S.ret,all=r.areas.find(a=>a.k==='all'),ar=r.areas.filter(a=>a.k!=='all').sort((a,b)=>b.save-a.save),mx=Math.max(.5,...ar.map(a=>a.save));
+ const name=k=>AREAS.find(a=>a[0]===k),close=ar.length>1&&ar[0].save-ar[1].save<Math.max(.6,1.5*Math.hypot(ar[0].se,ar[1].se));
+ return head+`<div class="ret">${ar.map((a,i)=>`<div class="rrow ${i===0?'top':''}"><span class="rl">${name(a.k)[2]} ${name(a.k)[1]}</span><span class="rb"><i style="width:${Math.max(3,a.save/mx*100)}%"></i></span><b>−${fmt(Math.max(0,a.save),1)}</b></div>`).join('')}</div>
+ <p class="small muted">All four together: −${fmt(all.save,1)} a round (less than the sum — the gains overlap). Figures are ±${fmt(Math.max(...ar.map(a=>a.se)),1)}.</p>
+ <div class="pp"><b>Start here: ${name(ar[0].k)[1]}${close?` (or ${name(ar[1].k)[1]} — it's close)`:''}</b><span>On this course it's worth about ${fmt(ar[0].save,1)} shots a round. ${RET_DRILL[ar[0].k]}</span></div>`}
+
 /* ================= game flow ================= */
 function startRound(){
- const P=S.player;S.course=buildCourse(P.courseId,P.tee,P.seed);S.ch=courseHcp(P.hcp,S.course);
+ const P=S.player;S.course=buildCourse(P.courseId,P.tee,P.seed,P.dr);S.dScale=P.tee==='junior'?236/P.bag.Dr:1;S.ch=courseHcp(P.hcp,S.course);
  S.course.holes.forEach(h=>{h.pops=pops(h.si,S.ch);h.wind=P.wind?h.windBase:[0,0]});
- S.scores=[];S.shots=[];loadHole(0)}
+ S.scores=[];S.shots=[];startReturns();loadHole(0)}
 function freeHole(H){if(!H)return;for(const k of['terr','terr3']){if(H[k]){try{H[k].c.width=H[k].c.height=0}catch(e){}H[k]=null}}}
 function loadHole(i){hideCaddieNote();if(S.hole&&S.course&&S.course.holes[i]!==S.hole)freeHole(S.hole);S.hi=i;S.hole=S.course.holes[i];S.ball={x:0,y:0,lie:'tee'};S.strokes=0;S.log=[];S.caddie=null;S.undo=null;S.trace=null;S.ghost=null;if(S.player.shadow){const H0=S.hole;if(typeof document==='undefined')S.ghost=shadowPlay(H0);else setTimeout(()=>{if(S.hole===H0&&!S.ghost){S.ghost=shadowPlay(H0);if(typeof draw!=='undefined')draw()}},30)}suggest();if(typeof setWind!=='undefined')setWind();if(typeof document!=='undefined'){fitView();refresh()}}
 function suggest(){if(S.player&&S.player.autoClub===false){const cl=allowedClubs(S.ball.lie);if(!cl.includes(S.club))S.club=cl[0];S.aimSet=false;S.aim=[...S.hole.pin];snapAim();return}
@@ -709,9 +767,9 @@ function shadowDebrief(){const P=S.player,sh=P.shadow,sc=S.scores.filter(s=>s.sh
   'Approach':`Iron dispersion is the biggest skill gap. Range work: pick a green-sized target and only count balls that finish inside it; track the % each session.`,
   'Short game':`Short game is the biggest skill gap. Spend half your practice inside 50 yards — landing-spot chips and a wedge distance ladder.`,
   'Putting':`Putting is the biggest skill gap. Lag ladder (30/40/50 ft into a putter-length circle) and 3-ft circle drill each session.`}};
- const top=items.filter(i=>i.v>=.5&&tip[i.t][i.c]).slice(0,2);
+ const top=items.filter(i=>i.t==='d'&&i.v>=1&&tip[i.t][i.c]).slice(0,2);
  return`<h3 style="margin-top:14px">You vs your shadow</h3>
- <p class="small muted">Your shadow plays at <b class="shv">${sh.h} hcp</b> ${sh.kind==='potential'?'— the handicap your distances make possible':'— a stretch goal (enter your real distances to see your potential)'} — with your bag and the caddie's choices.</p>
+ <p class="small muted">Your shadow plays at <b class="shv">${sh.h} hcp</b> ${sh.kind==='potential'?'— the handicap your distances make possible':sh.kind==='next'?'— your next level':'— a stretch goal (enter your real distances to see your potential)'} — with your bag and the caddie's choices.</p>
  <div class="gap"><span></span><span class="h">You</span><span class="h shv">Shadow</span><span></span>
  ${row('Score',fmt(you,ex),fmt(shS,ex))}${row('Fairways',f4.filter(s=>s.fir).length+'/'+f4.length,f4.filter(s=>s.sh.fir).length+'/'+f4.length)}${row('Greens',sc.filter(s=>s.gir).length+'/'+sc.length,sc.filter(s=>s.sh.gir).length+'/'+sc.length)}${row('Putts',fmt(sum(s=>s.putts),ex),fmt(sum(s=>s.sh.putts),ex))}${row('Penalties',yPens,sPens)}</div>
  <p class="small" style="margin-top:10px">Where the <b>${fmt(gap,1)}</b>-shot gap to your shadow's expected ${fmt(shE,1)} comes from:</p>
@@ -719,8 +777,35 @@ function shadowDebrief(){const P=S.player,sh=P.shadow,sc=S.scores.filter(s=>s.sh
  ${B.map(b=>`<span>${b.c}</span><span class="v">${f1(b.d)}</span><span class="v">${f1(b.k)}</span><span class="v">${f1(b.d+b.k)}</span>`).join('')}
  <span class="t">Total</span><span class="v t">${f1(dec)}</span><span class="v t">${f1(skill)}</span><span class="v t">${f1(dec+skill)}</span>
  <span>Bounces &amp; luck</span><span></span><span></span><span class="v">${f1(luck)}</span></div>
- <p class="small muted">Decisions: what your club and target choices cost versus the caddie's line — fixable next round, no swing change. Skill: how much more your shadow's tighter spread and short game are worth from the same spots — that's practice. Luck: one round's bounces; ignore it.</p>
+ <p class="small muted">Decisions: what your club and target choices cost versus the caddie's line — fixable next round, no swing change. Skill: how much your shadow's tighter spread is worth from the same spots — it follows from the handicap gap, so see <b>Best return on practice</b> below for where to spend range time. Luck: one round's bounces; ignore it.</p>
  ${top.length?top.map(i=>`<div class="pp"><b>${i.t==='d'?'Decision':'Skill'} · ${i.c} (${f1(i.v)})</b><span>${tip[i.t][i.c]}</span></div>`).join(''):''}`}
+function heroHTML(){const sc=S.scores,P=S.player,tgt=S.course.par+S.ch,adj=sc.reduce((a,s)=>a+s.adj,0),d=adj-tgt,ex=P.puttMode==='exp'?1:0;
+ const full=S.shots.filter(s=>!s.putt),good=full.filter(s=>s.cost<.15).length,ratio=full.length?good/full.length:1;
+ const gambles=full.filter(s=>s.risk>=.15).length,pens=sc.reduce((a,s)=>a+s.pens,0);
+ const sScore=d<=2,sChoice=ratio>=.75,sDisc=gambles<=2;const n=sScore+sChoice+sDisc;
+ let v,sub,tone;
+ if(n===3){v='Great round!';sub='Good score, smart choices, no gambles. That\'s how good rounds are built.';tone='gold'}
+ else if(sChoice&&!sScore){v='Smart golf!';sub='Your decisions were good — the score will follow as your swing catches up. That\'s exactly the right way to play.';tone='green'}
+ else if(sScore&&!sChoice){v='Nice score!';sub='A few risky choices got away with it today. Play the smart line next time and this score gets easier to repeat.';tone='green'}
+ else if(n===2){v='Solid round';sub='Two out of three. Look at the missing star below — that\'s the next step.';tone='green'}
+ else if(n===1){v='Good effort';sub='Every round teaches something. Pick one thing from below and take it to the next round.';tone='blue'}
+ else{v='Tough day out there';sub='It happens to every golfer. Stay patient — the notes below show the one change that helps most.';tone='blue'}
+ const key='cm-best:'+[P.courseId,P.tee,P.seed].join('|');let best=null;try{best=JSON.parse(localStorage.getItem(key)||'null')}catch(e){}
+ const pb=!best||adj<best;if(pb){try{localStorage.setItem(key,JSON.stringify(adj))}catch(e){}}
+ const star=(on,l)=>`<div class="star ${on?'on':''}"><span>${on?'★':'☆'}</span><small>${l}</small></div>`;
+ const nb=sc.filter(s=>s.score<s.par+s.pops).length,op=S.shots.filter(s=>s.putt&&s.np===1).length;
+ let bb=0;for(let i=1;i<sc.length;i++){const a=sc[i-1],b=sc[i];if(a.score>=a.par+a.pops+2&&b.score<=b.par+b.pops)bb++}
+ const shS=sc.every(s=>s.sh)&&P.shadow?sc.reduce((a,s)=>a+s.sh.score,0):null,gross=sc.reduce((a,s)=>a+s.score,0);
+ const B=[[`🎯`,`${good} of ${full.length} good decisions`,ratio>=.75],pens===0?['🛡️','Penalty-free',1]:null,nb?['🐦',`${nb} net birdie${nb>1?'s':''}`,1]:null,op>=2?['⛳',`${op} one-putts`,1]:null,bb?['🔁',`${bb} bounce-back${bb>1?'s':''}`,1]:null,shS!=null&&gross<shS?['👤','Beat your shadow!',1]:null,pb&&best!=null?['🏅','New personal best',1]:null].filter(Boolean);
+ S.celebrate=n>=2||(pb&&best!=null);
+ return`<div class="hero ${tone}"><div class="hstars">${star(sScore,'Score')}${star(sChoice,'Choices')}${star(sDisc,'No gambles')}</div>
+ <div class="hv">${v}</div><div class="hs">${sub}</div>
+ <div class="hnum"><b>${fmt(adj,ex)}</b><span>${d>0?'+':''}${fmt(d,ex)} vs your target ${tgt}</span></div></div>
+ <div class="badges">${B.map(([e,t,on])=>`<span class="badge ${on?'on':''}">${e} ${t}</span>`).join('')}</div>
+ <p class="small muted" style="margin-top:6px">★ Score: within 2 of your target · ★ Choices: 3 in 4 shots the right call · ★ No gambles: 2 or fewer shots with 15%+ penalty risk</p>`}
+function confetti(){if(!S.celebrate||typeof document==='undefined')return;const box=document.createElement('div');box.className='confetti';const cols=['#4ccf8f','#ffd978','#e7b04f','#cdb8ff','#ffffff','#f07162'];
+ for(let i=0;i<60;i++){const c=document.createElement('i');c.style.left=Math.random()*100+'%';c.style.background=cols[i%cols.length];c.style.animationDelay=Math.random()*.6+'s';c.style.animationDuration=1.8+Math.random()*1.4+'s';c.style.transform=`rotate(${Math.random()*360}deg)`;box.appendChild(c)}
+ document.body.appendChild(box);setTimeout(()=>box.remove(),3800);try{if(SND.ctx&&SND.on){const t0=SND.ctx.currentTime;[523,659,784,1047].forEach((f,i)=>tone(t0+i*.11,.3,f,f,'sine',.08))}}catch(e){}}
 function debrief(){const sc=S.scores,P=S.player,ex=P.puttMode==='exp'?1:0;
  const gross=sc.reduce((a,s)=>a+s.score,0),adj=sc.reduce((a,s)=>a+s.adj,0),tgt=S.course.par+S.ch,putts=sc.reduce((a,s)=>a+s.putts,0);
  const fir=sc.filter(s=>s.par>3),firN=fir.filter(s=>s.fir).length,girN=sc.filter(s=>s.gir).length,pens=sc.reduce((a,s)=>a+s.pens,0);
@@ -728,7 +813,7 @@ function debrief(){const sc=S.scores,P=S.player,ex=P.puttMode==='exp'?1:0;
  const cost=S.shots.reduce((a,s)=>a+s.cost,0);const top=S.shots.filter(s=>s.cost>.08).sort((a,b)=>b.cost-a.cost).slice(0,5);
  const risky=S.shots.filter(s=>s.risk>=.15);const riskyPen=risky.filter(s=>s.pen).length;
  const d=adj-tgt;
- openModal(`<h2>${S.course.name} — round summary</h2>
+ openModal(`${heroHTML()}<h3 style="margin-top:16px">${S.course.name} · the numbers</h3>
  <div class="coursebox"><div class="stat"><span>Adjusted score</span><b>${fmt(adj,ex)}</b></div><div class="stat"><span>Target</span><b>${tgt}</b></div>
  <div class="stat"><span>vs target</span><b class="${d<=0?'b':'o'}">${d>0?'+':''}${fmt(d,ex)}</b></div><div class="stat"><span>Gross</span><b>${fmt(gross,ex)}</b></div></div>
  <div class="coursebox"><div class="stat"><span>Fairways</span><b>${firN}/${fir.length}</b></div><div class="stat"><span>Greens</span><b>${girN}/18</b></div><div class="stat"><span>Putts</span><b>${fmt(putts,ex)}</b></div><div class="stat"><span>Penalties</span><b>${pens}</b></div></div>
@@ -738,6 +823,7 @@ function debrief(){const sc=S.scores,P=S.player,ex=P.puttMode==='exp'?1:0;
   <div class="stat"><span>Execution &amp; luck</span><b class="${d-cost<=0?'b':'o'}">${d-cost>0?'+':''}${fmt(d-cost,1)}</b></div></div>
  <p class="small muted">Decision cost is what your club/target choices gave away versus the best line the caddie found. It ignores how the swing turned out, so it's the number to work on. Execution &amp; luck is everything else.</p>
  ${shadowDebrief()}
+ <div id="retBox">${retHTML()}</div>
  <h3 style="margin-top:14px">Strokes gained vs your handicap baseline</h3>
  <div class="bars" style="grid-template-columns:110px 1fr 52px">${cats.map(c=>{const v=sg[c],w=Math.min(100,Math.abs(v)*15);return`<span>${c}</span><div class="bar"><i style="width:${w}%;background:${v>=0?'var(--good)':'var(--bad)'}"></i></div><span class="${v>=0?'sg-pos':'sg-neg'}">${v>=0?'+':''}${fmt(v,1)}</span>`}).join('')}</div>
  ${(()=>{const pp=practicePlan();if(!pp.plan.length&&!pp.rule)return'';return`<h3 style="margin-top:14px">Practice focus</h3><p class="small muted">Only what this round's numbers support, ranked by strokes lost against your handicap.</p>`+pp.plan.map(p=>`<div class="pp"><b>${p.title}</b><span>${p.why}</span><em>${p.fix}</em></div>`).join('')+(pp.rule?`<div class="pp rule"><b>Rule for next round</b><span>${pp.rule}</span></div>`:'')})()}
@@ -747,6 +833,7 @@ function debrief(){const sc=S.scores,P=S.player,ex=P.puttMode==='exp'?1:0;
  ${top.length?`<ol class="small">${top.map(s=>`<li>Hole ${s.hole}, shot ${s.n} (${LIENAME[s.fromLie].toLowerCase()}, ${fmt(s.dp)} y): you hit <b>${s.club}</b> — ${fmt(s.risk*100)}% penalty risk, exp ${fmt(s.E,2)}. Better: <b>${s.best.club}</b> ${s.best.desc}, exp ${fmt(s.best.E,2)} (−${fmt(s.cost,2)}).</li>`).join('')}</ol>`:'<p class="small">No costly decisions. That\'s disciplined golf.</p>'}
  <h3 style="margin-top:14px">Scorecard</h3>${scorecardHTML()}
  <div class="row" style="margin-top:12px"><button class="primary" id="mReplay">Replay this course</button><button id="mNew">New setup</button></div>`);
+ confetti();
  $('#mReplay').onclick=()=>{closeModal();startRound()};$('#mNew').onclick=()=>{closeModal();showSetup()}}
 
 function openModal(h){$('#modalBody').innerHTML=h;$('#modal').classList.remove('hidden')}
@@ -908,20 +995,20 @@ function savePrefs(p){try{localStorage.setItem('cm-prefs',JSON.stringify(p))}cat
 let bag={};
 function deriveBag(dr,i7){dr=Math.max(i7+30,dr);return Object.fromEntries(CLUBS.map(([n,r])=>[n,Math.round(r>=.65?i7+(dr-i7)*(r-.65)/.35:i7*r/.65)]))}
 function hcpDefaults(h){const d=defaultBag(h);return{i7:d['7i'],dr:d.Dr}}
-function renderBagPrev(){const b=deriveBag(+$('#dr').value||228,+$('#i7').value||150);{const h=parseFloat($('#hcp').value)||0,sh=shadowFor(h,+$('#dr').value||228,+$('#i7').value||150);$('#shTxt').innerHTML=sh.kind==='potential'?`<b>Shadow player · ${sh.h} hcp.</b> Your distances belong to a ${sh.h} handicap — that's your potential. Your shadow plays alongside you with the same bag and smart choices; the debrief shows the gap.`:`<b>Shadow player · ${sh.h} hcp.</b> Enter your real 7-iron and driver to see your potential. For now your shadow is a stretch goal 6 shots better.`}$('#bagprev').innerHTML='<div class="cap">Your bag (total yards) — worked out from your 7-iron and driver</div>'+CLUBS.map(([n])=>`<div><b>${n}</b><span>${b[n]}</span></div>`).join('')}
+function renderBagPrev(){const b=deriveBag(+$('#dr').value||228,+$('#i7').value||150);{const h=parseFloat($('#hcp').value)||0,sh=shadowFor(h,+$('#dr').value||228,+$('#i7').value||150,$('#tee').value==='junior');$('#shTxt').innerHTML=sh.kind==='next'?`<b>Shadow player · ${sh.h} hcp.</b> On junior tees your shadow is the next level up — 8 shots better, same bag. Distance isn't a fair measure of potential while you're still growing.`:sh.kind==='potential'?`<b>Shadow player · ${sh.h} hcp.</b> Your distances belong to a ${sh.h} handicap — that's your potential. Your shadow plays alongside you with the same bag and smart choices; the debrief shows the gap.`:`<b>Shadow player · ${sh.h} hcp.</b> Enter your real 7-iron and driver to see your potential. For now your shadow is a stretch goal 6 shots better.`}$('#bagprev').innerHTML='<div class="cap">Your bag (total yards) — worked out from your 7-iron and driver</div>'+CLUBS.map(([n])=>`<div><b>${n}</b><span>${b[n]}</span></div>`).join('')}
 function goStep(id){['st1','st2','st3'].forEach(k=>$('#'+k).classList.toggle('hidden',k!==id));if(id==='st3')updateCourseBox();if(id==='st2')renderBagPrev()}
 function renderBag(){}
 function readSetup(){const hcp=parseFloat($('#hcp').value)||0;
  bag=deriveBag(Math.max(100,+$('#dr').value||228),Math.max(50,+$('#i7').value||150));
- const tend=$('#tend').value;return{i7:+$('#i7').value,dr:+$('#dr').value,hcp,tend,bias:tend==='slice'?1:tend==='hook'?-1:0,bag:{...bag},courseId:$('#course').value,tee:$('#tee').value,seed:+$('#seed').value||1,wind:$('#wind').checked,autoClub2:$('#autoclub').checked,autoClub:$('#autoclub').checked,puttMode:$('#puttmode').value,shOn:$('#shOn').checked,shadow:$('#shOn').checked?shadowFor(hcp,Math.max(100,+$('#dr').value||228),Math.max(50,+$('#i7').value||150)):null}}
+ const tend=$('#tend').value;return{i7:+$('#i7').value,dr:+$('#dr').value,hcp,tend,bias:tend==='slice'?1:tend==='hook'?-1:0,bag:{...bag},courseId:$('#course').value,tee:$('#tee').value,seed:+$('#seed').value||1,wind:$('#wind').checked,autoClub2:$('#autoclub').checked,autoClub:$('#autoclub').checked,puttMode:$('#puttmode').value,shOn:$('#shOn').checked,shadow:$('#shOn').checked?shadowFor(hcp,Math.max(100,+$('#dr').value||228),Math.max(50,+$('#i7').value||150),$('#tee').value==='junior'):null}}
 function updateCourseBox(){const p=readSetup();
- const c=buildCourse(p.courseId,p.tee,p.seed),ch=courseHcp(p.hcp,c);
+ const c=buildCourse(p.courseId,p.tee,p.seed,p.dr),ch=courseHcp(p.hcp,c);
  $('#cName').textContent=c.name;$('#cSub').textContent=c.sub;$('#cPar').textContent=`${c.par} · ${c.yards.toLocaleString()}`;
  $('#cRate').textContent=`${fmt(c.cr,1)} / ${c.slope}`;document.querySelectorAll('#teeSeg button').forEach(b=>b.classList.toggle('on',b.dataset.t===p.tee));renderPicker();$('#cCH').textContent=ch;$('#cTarget').textContent=c.par+ch;savePrefs({...p})}
 function diffInfo(slope){const lv=slope<=120?['Friendly','#3f8f46']:slope<=130?['Moderate','#7aa33a']:slope<=138?['Tough','#c98a1b']:slope<=146?['Very tough','#d0652a']:['Brutal','#b5462e'];
  return{label:lv[0],col:lv[1],pct:Math.max(6,Math.min(100,(slope-105)/45*100))}}
 function renderPicker(){const p=readSetup(),ids=[...Object.keys(PRESETS),'random'];
- const rows=ids.map(id=>{const c=buildCourse(id,p.tee,p.seed),ch=courseHcp(p.hcp,c),m=id==='random'?{tags:['Random #'+p.seed]}:PRESETS[id];return{id,c,ch,m,d:diffInfo(c.slope)}});
+ const rows=ids.map(id=>{const c=buildCourse(id,p.tee,p.seed,p.dr),ch=courseHcp(p.hcp,c),m=id==='random'?{tags:['Random #'+p.seed]}:PRESETS[id];return{id,c,ch,m,d:diffInfo(c.slope)}});
  const so=$('#csort').value;rows.sort((a,b)=>a.id==='random'?1:b.id==='random'?-1:so==='name'?a.c.name.localeCompare(b.c.name):so==='easy'?a.c.slope-b.c.slope||a.c.cr-b.c.cr:b.c.slope-a.c.slope||b.c.cr-a.c.cr);
  $('#picker').innerHTML=rows.map(({id,c,ch,m,d})=>`<button class="cc ${p.courseId===id?'sel':''}" data-id="${id}">
   <span class="nm">${id==='random'?'🎲 Random course':c.name}</span><span class="sb">${id==='random'?c.name+' · '+c.sub.split(' ·')[0]:c.sub}</span>
@@ -937,7 +1024,7 @@ function init(){cv=$('#map');ctx=cv.getContext('2d');
  $('#hcp').addEventListener('change',()=>{const d=hcpDefaults(parseFloat($('#hcp').value)||0);$('#i7').value=d.i7;$('#dr').value=d.dr;renderBagPrev();updateCourseBox()});
  ['#i7','#dr'].forEach(q=>$(q).addEventListener('input',()=>{renderBagPrev()}));['#i7','#dr'].forEach(q=>$(q).addEventListener('change',updateCourseBox));
  $('#go1').onclick=()=>goStep('st2');$('#go2').onclick=()=>goStep('st3');document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>goStep(b.dataset.back));
- $('#teeSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;$('#tee').value=b.dataset.t;updateCourseBox()};
+ $('#teeSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;$('#tee').value=b.dataset.t;renderBagPrev();updateCourseBox()};
  $('#picker').onclick=e=>{const b=e.target.closest('.cc');if(!b)return;$('#course').value=b.dataset.id;updateCourseBox()};$('#csort').onchange=renderPicker;
  $('#dice').onclick=()=>{$('#seed').value=1+Math.floor(Math.random()*99999);$('#course').value='random';updateCourseBox()};
  try{SND.on=localStorage.getItem('cm-snd')!=='0'}catch(e){}$('#btnSnd').textContent=SND.on?'🔊':'🔇';$('#btnSnd').onclick=toggleSound;
