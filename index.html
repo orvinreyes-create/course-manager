@@ -153,6 +153,11 @@ details summary{cursor:pointer;font-weight:600}
 .clubs button{padding:.3em 0;font-size:.72rem;line-height:1.1}
 .clubs button b{display:block;font-size:.9rem}
 .clubs button.sel{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.clubsel{display:grid;grid-template-columns:64px 1fr 64px;gap:6px;align-items:stretch}
+.clubsel button{padding:.35em 0;line-height:1.1;font-size:.7rem;color:var(--mut)}.clubsel button b{display:block;font-size:1.3rem;color:var(--ink)}
+.clubsel button:disabled{opacity:.3;cursor:default}
+.clubsel .cur{text-align:center;background:var(--field);border:1px solid var(--acc);border-radius:12px;padding:.3em .4em}
+.clubsel .cur b{display:block;font-size:1.25rem;font-weight:900}.clubsel .cur span{font-size:.78rem;color:var(--mut)}
 .bars{display:grid;grid-template-columns:90px 1fr 42px;gap:4px 8px;align-items:center;font-size:.85rem}
 .bar{height:8px;background:#0c150f;border-radius:4px;overflow:hidden}
 .bar i{display:block;height:100%}
@@ -236,7 +241,7 @@ th:first-child,td:first-child{text-align:left}
       <div class="small muted" id="bFB"></div>
     </div>
     <div class="card tight clubcard">
-      <div class="clubs" id="clubs"></div>
+      <div class="clubsel" id="clubs"></div>
       <div id="aimInfo" class="small" style="margin-top:6px"></div>
     </div>
     <div class="card tight oddscard">
@@ -271,6 +276,9 @@ const LIE={tee:{dist:[1,1],disp:1,miss:1},fairway:{dist:[.98,1.01],disp:1,miss:1
  rough:{dist:[.84,1],disp:1.25,miss:1.4},deep:{dist:[.62,.85],disp:1.6,miss:2},fbunker:{dist:[.82,.95],disp:1.3,miss:2.2},
  gbunker:{dist:[.85,1.1],disp:1.8,miss:1},trees:{dist:[.45,.7],disp:2,miss:1.8},green:{dist:[1,1],disp:1,miss:1}};
 const LIENAME={tee:'Tee',fairway:'Fairway',fringe:'Fringe',rough:'Rough',deep:'Deep rough',fbunker:'Fairway bunker',gbunker:'Greenside bunker',trees:'Trees',water:'Water',ob:'Out of bounds',green:'Green'};Object.defineProperty(LIENAME,'water',{get(){return S.hole&&S.hole.ravine?'Ravine':'Water'},enumerable:true});
+const CLUBNAME={Dr:'Driver','3W':'3-Wood','5W':'5-Wood',Hy:'Hybrid','5i':'5-Iron','6i':'6-Iron','7i':'7-Iron','8i':'8-Iron','9i':'9-Iron',PW:'Pitching Wedge',GW:'Gap Wedge',SW:'Sand Wedge',LW:'Lob Wedge'};
+// Club up/down stays within 2 allowed clubs of the recommended one (S.anchor).
+function clubSteps(){const al=allowedClubs(S.ball.lie),i=al.indexOf(S.club);let a=al.indexOf(S.anchor);if(a<0)a=i;return{al,i,up:i>0&&i-1>=a-2?al[i-1]:null,down:i>=0&&i+1<al.length&&i+1<=a+2?al[i+1]:null}}
 function allowedClubs(lie){return CLUBS.map(c=>c[0]).filter(n=>{const t=CT[n];
  if(lie==='tee')return true; if(n==='Dr')return false;
  if(lie==='gbunker')return t==='wedge';
@@ -546,14 +554,14 @@ function startRound(){
  S.scores=[];S.shots=[];startReturns();loadHole(0)}
 function freeHole(H){if(!H)return;for(const k of['terr','terr3']){if(H[k]){try{H[k].c.width=H[k].c.height=0}catch(e){}H[k]=null}}}
 function loadHole(i){hideCaddieNote();if(S.hole&&S.course&&S.course.holes[i]!==S.hole)freeHole(S.hole);S.hi=i;S.hole=S.course.holes[i];S.ball={x:0,y:0,lie:'tee'};S.strokes=0;S.log=[];S.caddie=null;S.undo=null;S.trace=null;S.ghost=null;if(S.player.shadow){const H0=S.hole;if(typeof document==='undefined')S.ghost=shadowPlay(H0);else setTimeout(()=>{if(S.hole===H0&&!S.ghost){S.ghost=shadowPlay(H0);if(typeof draw!=='undefined')draw()}},30)}suggest();if(typeof setWind!=='undefined')setWind();if(typeof document!=='undefined'){fitView();refresh()}}
-function suggest(){if(S.player&&S.player.autoClub===false){const cl=allowedClubs(S.ball.lie);if(!cl.includes(S.club))S.club=cl[0];S.aimSet=false;S.aim=[...S.hole.pin];snapAim();return}
+function suggest(){
  const st=S.ball,H=S.hole,cl=allowedClubs(st.lie),dp=distPin(st.x,st.y),bag=S.player.bag;
  const pinDir=[H.pin[0]-st.x,H.pin[1]-st.y];const w=H.wind,dd=Math.hypot(...pinDir)||1,into=-(w[0]*pinDir[0]+w[1]*pinDir[1])/dd,wf=into>0?1-.01*into:1+.005*(-into);
  const need=dp/wf*(LIE[st.lie]&&st.lie!=='tee'?1/((LIE[st.lie].dist[0]+LIE[st.lie].dist[1])/2):1);
  const longest=cl[0];
  if(bag[longest]>=need){const fit=[...cl].reverse().find(c=>bag[c]>=need)||longest;S.club=fit;S.aim=[...H.pin]}
  else{S.club=longest;const s0=toLocal(H,st.x,st.y).s;S.aim=toWorld(H,Math.min(s0+bag[longest],H.L-H.r-4),0)}
- S.aimSet=false;S.aim=[...H.pin];snapAim()}
+ S.anchor=S.club;S.aimSet=false;S.aim=[...H.pin];snapAim()}
 function refresh(){if(typeof document==="undefined")return;S.eval=S.aimSet?evalAim(S.ball,S.club,S.aim,250):null;renderPanel();draw()}
 function hit(){if(S.busy||!S.aimSet)return;const st={...S.ball},club=S.club,aim=[...S.aim];
  if(!allowedClubs(st.lie).includes(club))return;
@@ -682,7 +690,8 @@ function renderPanel(){const H=S.hole,P=S.player,b=S.ball,done=S.scores.length>S
  $('#bShot').textContent=done?'—':S.strokes+1;$('#bLie').textContent=done?'Holed out':LIENAME[b.lie]||b.lie;
  $('#bPin').textContent=done?'':fmt(dp)+' y';$('#bFB').textContent=done?'':`Front ${fmt(Math.max(0,dG-H.r))} · Back ${fmt(dG+H.r)} · to pin`;
  const al=allowedClubs(b.lie);
- $('#clubs').innerHTML=CLUBS.map(([n])=>`<button data-c="${n}" class="${n===S.club?'sel':''}" ${al.includes(n)&&!done?'':'disabled'}><b>${n}</b>${P.bag[n]}</button>`).join('');
+ {const k=clubSteps(),btn=(c,ar,lbl)=>`<button ${c&&!done?`data-c="${c}"`:'disabled'} aria-label="${lbl}"><b>${ar}</b>${c||'—'}</button>`;
+  $('#clubs').innerHTML=btn(k.up,'‹','Club up')+`<div class="cur"><b>${CLUBNAME[S.club]||S.club}</b><span>${P.bag[S.club]} y${S.club===S.anchor?' · recommended':''}</span></div>`+btn(k.down,'›','Club down')}
  const ad=dist([b.x,b.y],S.aim),dx=(S.aim[0]-b.x)/(ad||1),dy=(S.aim[1]-b.y)/(ad||1),into=-(w[0]*dx+w[1]*dy),wf=into>0?1-.01*into:1+.005*(-into),pl=ad/wf,full=P.bag[S.club];
  let warn='';if(pl>full*1.02)warn=`Beyond full ${S.club} (${full}) — will come up short`;else if(pl<full*minPct(S.club))warn=`Too short for ${S.club} — minimum ~${Math.round(full*minPct(S.club))}`;
  if(LIE[b.lie]&&LIE[b.lie].dist[0]<.95&&b.lie!=='gbunker')warn+=(warn?' · ':'')+`${LIENAME[b.lie]} costs ${Math.round((1-(LIE[b.lie].dist[0]+LIE[b.lie].dist[1])/2)*100)}% distance`;
@@ -884,7 +893,7 @@ function canRehit(){return !!(S.undo&&S.undo.hi===S.hi&&!S.busy)}
 function rehit(){if(!canRehit())return;const u=S.undo,H=S.hole;S.undo=null;
  clearTimeout(S.modalT);if(typeof closeModal!=='undefined'&&typeof document!=='undefined')closeModal();hideCaddieNote();
  S.ball={...u.ball};S.strokes=u.strokes;S.log=u.log;S.logIdx=u.logIdx;S.shots.length=u.shots;S.scores.length=u.scores;H.fir=u.fir;H.gir=u.gir;S.trace=null;S.caddie=null;
- if(u.best){S.caddie=u.best;S.club=u.best.club;S.aim=[...u.best.aim];S.aimSet=true}else suggest();
+ if(u.best){S.caddie=u.best;S.club=S.anchor=u.best.club;S.aim=[...u.best.aim];S.aimSet=true}else suggest();
  S.log.push('<span class="muted">↺ Rehit — previous shot replaced</span>');
  if(typeof document!=='undefined'){fitView();refresh()}}
 function strikeCallout(res,st){const E={top:['Topped it!','Thin one…'],fat:['Chunked it!','Fat!'],shank:['SHANK!','Hosel rocket'],slice:['Big slice!','Banana ball'],hook:['Snap hook!','Duck hook'],stay:['Still in the sand…'],skull:['Skulled it!','Bladed!']}[res.ev];
@@ -1036,7 +1045,7 @@ function init(){cv=$('#map');ctx=cv.getContext('2d');
  cv.addEventListener('click',e=>{if(S.busy||S.scores.length>S.hi)return;S.aim=pos(e);S.aimSet=true;S.caddie=null;{const b=S.ball,dir=[S.aim[0]-b.x,S.aim[1]-b.y],d=Math.hypot(...dir),R=effTotal(b,S.club,dir);if(d>R)S.aim=[b.x+dir[0]/d*R,b.y+dir[1]/d*R]}refresh()});
  $('#btnHit').onclick=hit;$('#btnRehit').onclick=rehit;$('#btnDet').onclick=()=>$('#panel').classList.toggle('open');
  document.addEventListener('click',e=>{const p=$('#panel');if(p.classList.contains('open')&&!p.contains(e.target))p.classList.remove('open')},true);
- $('#btnCaddie').onclick=()=>{const b=bestOption(S.ball,200);if(b){S.caddie=b;S.club=b.club;S.aim=[...b.aim];S.aimSet=true;refresh()}};
+ $('#btnCaddie').onclick=()=>{const b=bestOption(S.ball,200);if(b){S.caddie=b;S.club=S.anchor=b.club;S.aim=[...b.aim];S.aimSet=true;refresh()}};
  $('#btnCard').onclick=()=>openModal(`<h2>Scorecard</h2>${scorecardHTML()}<div class="row" style="margin-top:10px"><button id="mClose">Close</button></div>`)||($('#mClose').onclick=closeModal);
  $('#btnQuit').onclick=()=>{if(confirm('Quit this round?'))showSetup()};
  document.addEventListener('keydown',e=>{if(e.code==='Space'&&!$('#game').classList.contains('hidden')&&$('#modal').classList.contains('hidden')){e.preventDefault();hit()}});
