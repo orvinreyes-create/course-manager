@@ -178,6 +178,7 @@ th,td{padding:4px 6px;text-align:center;border-bottom:1px solid var(--line)}
 th:first-child,td:first-child{text-align:left}
 .b{color:var(--good);font-weight:700}.o{color:var(--bad);font-weight:700}
 .sg-pos{color:var(--good)}.sg-neg{color:var(--bad)}
+tr.tot td{font-weight:800;border-top:1px solid var(--line);background:rgba(255,255,255,.04)}
 </style>
 </head>
 <body>
@@ -705,8 +706,11 @@ function holeModal(){const s=S.scores[S.scores.length-1],pp=s.par+s.pops,d=s.sco
  if($('#mRehit'))$('#mRehit').onclick=rehit;
  $('#mNext').onclick=()=>{closeModal();if(last)debrief();else loadHole(S.hi+1)}}
 
-function scorecardHTML(){const sc=S.scores,c=S.course,ex=S.player.puttMode==='exp'?1:0;const rows=c.holes.map((h,i)=>{const s=sc[i];
- const pp=h.par+h.pops;return`<tr><td>${i+1}</td><td>${h.L}</td><td>${h.par}</td><td>${h.si}</td><td>${pp}</td><td class="${s?(s.score<pp?'b':s.score>pp?'o':''):''}">${s?fmt(s.score,ex)+(s.pickup?'*':''):''}</td><td>${s?fmt(s.putts,ex):''}</td><td>${s&&s.par>3?(s.fir?'✓':'·'):''}</td><td>${s?(s.gir?'✓':'·'):''}</td><td>${s&&s.pens?s.pens:''}</td>${S.player.shadow?`<td class="shv">${s&&s.sh?fmt(s.sh.score,ex):''}</td>`:''}</tr>`}).join('');
+function scorecardHTML(){const sc=S.scores,c=S.course,ex=S.player.puttMode==='exp'?1:0;
+ // subtotal row (Out / In / Total): course columns always, score columns over the holes played so far
+ const sub=(a,z,lbl)=>{const H=c.holes.slice(a,z),P=sc.slice(a,z),n=P.length,sum=f=>P.reduce((t,x)=>t+f(x),0),pp=H.reduce((t,h)=>t+h.par+h.pops,0),ppP=P.reduce((t,x)=>t+x.par+x.pops,0),sco=sum(x=>x.score),fw=P.filter(x=>x.par>3);
+  return`<tr class="tot"><td>${lbl}</td><td>${H.reduce((t,h)=>t+h.L,0)}</td><td>${H.reduce((t,h)=>t+h.par,0)}</td><td></td><td>${pp}</td><td class="${n?(sco<ppP?'b':sco>ppP?'o':''):''}">${n?fmt(sco,ex):''}</td><td>${n?fmt(sum(x=>x.putts),ex):''}</td><td>${fw.length?fw.filter(x=>x.fir).length+'/'+fw.length:''}</td><td>${n?P.filter(x=>x.gir).length+'/'+n:''}</td><td>${n?sum(x=>x.pens||0)||'':''}</td>${S.player.shadow?`<td class="shv">${P.some(x=>x.sh)?fmt(sum(x=>x.sh?x.sh.score:0),ex):''}</td>`:''}</tr>`};const rows=c.holes.map((h,i)=>{const s=sc[i];
+ const pp=h.par+h.pops;return`${i===9?sub(0,9,'Out'):''}<tr><td>${i+1}</td><td>${h.L}</td><td>${h.par}</td><td>${h.si}</td><td>${pp}</td><td class="${s?(s.score<pp?'b':s.score>pp?'o':''):''}">${s?fmt(s.score,ex)+(s.pickup?'*':''):''}</td><td>${s?fmt(s.putts,ex):''}</td><td>${s&&s.par>3?(s.fir?'✓':'·'):''}</td><td>${s?(s.gir?'✓':'·'):''}</td><td>${s&&s.pens?s.pens:''}</td>${S.player.shadow?`<td class="shv">${s&&s.sh?fmt(s.sh.score,ex):''}</td>`:''}</tr>`}).join('')+sub(9,18,'In')+sub(0,18,'Total');
  return`<table><tr><th>Hole</th><th>Yds</th><th>Par</th><th>SI</th><th>Your par</th><th>Score</th><th>Putts</th><th>FIR</th><th>GIR</th><th>Pen</th>${S.player.shadow?'<th class="shv">Shadow</th>':''}</tr>${rows}</table><p class="small muted">* picked up at net double bogey</p>`}
 
 function practicePlan(){const sh=S.shots,h=S.player.hcp,out=[];const sum=a=>a.reduce((x,s)=>x+s.sg,0);const f0=v=>fmt(v,0),f1=v=>fmt(v,1);
