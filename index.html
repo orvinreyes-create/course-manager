@@ -628,7 +628,7 @@ const TX={}; function noiseTex(w,base,vary,dots,seed,dotCol){const c=document.cr
   const wg=new T.Group();sc.add(wg);G3.water=wg;const wmat=new T.MeshBasicMaterial({color:0x4a8ec0,fog:true}),add=pts=>{const sh=new T.Shape(pts.map(q=>new T.Vector2(q[0],q[1])));const m=new T.Mesh(new T.ShapeGeometry(sh),wmat);m.position.z=-.35;wg.add(m)};
   for(const b of H.bands)if(b.type==='water'){const A=[],B=[];for(let s=b.s0;s<=b.s1;s+=4){A.push(toWorld(H,s,b.side*b.off));B.push(toWorld(H,s,b.side*(b.off+80)))}add(A.concat(B.reverse()))}
   for(const e of H.ell)if(e.type==='water'){const pts=[];for(let a=0;a<6.3;a+=.15)pts.push(toWorld(H,e.s+Math.cos(a)*e.rs,e.d+Math.sin(a)*e.rd));add(pts)}}
- {const sk=new T.Mesh(new T.PlaneGeometry(6000,6000),new T.MeshStandardMaterial({color:0x4d7a3a,roughness:1}));sk.position.set(TR.minx+W/2,TR.miny+Hh/2,-.6);sc.add(sk)}
+ {const sk=new T.Mesh(new T.PlaneGeometry(6000,6000),new T.MeshStandardMaterial({color:0x4d7a3a,roughness:1}));sk.position.set(TR.minx+W/2,TR.miny+Hh/2,-7);sc.add(sk)}
  { // Eye view backdrop: gradient sky dome + two layered mountain ranges (seeded per hole)
   const env=new T.Group(),cx0=TR.minx+W/2,cy0=TR.miny+Hh/2;env.position.set(cx0,cy0,0);G3.env=env;sc.add(env);
   const dg=new T.SphereGeometry(2600,32,16);dg.rotateX(Math.PI/2);const dp=dg.attributes.position,cols=[],top=new T.Color('#5d9fd8'),hor=new T.Color('#e4f0f8'),cc=new T.Color();
