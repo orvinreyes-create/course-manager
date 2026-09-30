@@ -475,7 +475,6 @@ function candidates(st){const H=S.hole,s0=toLocal(H,st.x,st.y).s,out=[],P=S.play
 function bestOption(st,n){const seed=(Math.random()*1e9)|0;let best=null;const cs=candidates(st);
  for(const c of cs){c.E=evalAim(st,c.club,c.aim,Math.min(n,50),seed).E}
  cs.sort((a,b)=>a.E-b.E);for(const c of cs.slice(0,6)){const e=evalAim(st,c.club,c.aim,n,seed+1).E;if(!best||e<best.E)best={...c,E:e,seed,n}}return best}
-function bestOption(st,n){let best=null;for(const c of candidates(st)){const e=evalAim(st,c.club,c.aim,n).E;if(!best||e<best.E)best={...c,E:e}}return best}
 
 /* ================= shadow player ================= */
 function potentialHcp(dr,i7){const hD=(268-dr)/2.6,h7=(268-i7/.65)/2.6;return Math.max(0,Math.round((hD+h7)/2))}
@@ -548,12 +547,13 @@ function refresh(){if(typeof document==="undefined")return;S.eval=S.aimSet?evalA
 function hit(){if(S.busy||!S.aimSet)return;const st={...S.ball},club=S.club,aim=[...S.aim];
  if(!allowedClubs(st.lie).includes(club))return;
  {const H=S.hole;S.undo={hi:S.hi,ball:st,strokes:S.strokes,log:[...S.log],logIdx:S.logIdx,shots:S.shots.length,scores:S.scores.length,fir:H.fir,gir:H.gir,best:null}}
- const ev=S.eval||evalAim(st,club,aim,250),best=bestOption(st,120);const yE=best?evalAim(st,club,aim,120,best.seed+1):ev,ce=yE.E;const bE=best?evalAim(st,best.club,best.aim,120,best.seed+1):null;const bS=S.player.shadow&&best?withHcp(S.player.shadow.h,()=>bestOption(st,80)):null;
+ const tookCaddie=!!(S.caddie&&S.caddie.seed!=null&&S.caddie.club===club&&dist(S.caddie.aim,aim)<1.5);
+ const ev=S.eval||evalAim(st,club,aim,250),best=tookCaddie?S.caddie:bestOption(st,120);const yE=best?evalAim(st,club,aim,120,best.seed+1):ev,ce=yE.E;const bE=best?evalAim(st,best.club,best.aim,120,best.seed+1):null;if(best)best.E=bE.E; /* grade the caddie line on the same simulated swings as yours */const bS=S.player.shadow&&best?withHcp(S.player.shadow.h,()=>bestOption(st,80)):null;
  const dp=distPin(st.x,st.y),Eb=Eyou(st.lie,dp),res=simShot(st,club,aim,Math.random),out=resolveShot(st,res);if(typeof sndStrike!=='undefined')sndStrike(club,st.lie,res.ev,dp);
  const apply=()=>{const H=S.hole;S.strokes+=1+out.pen;
   const Ea=Eyou(out.lie,distPin(out.x,out.y)),sg=Eb-Ea-1-out.pen;
   const cat=(st.lie==='tee'&&H.par>3)?'Off the tee':dp>40?'Approach':'Short game';
-  const shot={hole:S.hi+1,n:S.shots.filter(s=>s.hole===S.hi+1).length+1,club,fromLie:st.lie,dp,sg,cat,risk:ev.cats.pen/ev.n,E:ce,best,cost:best?Math.max(0,ce-best.E):0,G:bS?best.E-bS.E:0,Eopt:best?best.E:ce,Esh:bS?bS.E:null,pen:out.pen,to:out.lie,raw:out.raw,ev:res.ev,leave:distPin(out.x,out.y),lat:(()=>{const ax=aim[0]-st.x,ay=aim[1]-st.y,L=Math.hypot(ax,ay)||1;return((res.x-st.x)*ay-(res.y-st.y)*ax)/L})()};
+  const shot={hole:S.hi+1,n:S.shots.filter(s=>s.hole===S.hi+1).length+1,club,fromLie:st.lie,dp,sg,cat,risk:ev.cats.pen/ev.n,E:ce,best,cost:tookCaddie?0:bE?Math.max(0,ce-bE.E):0,G:bS?best.E-bS.E:0,Eopt:best?best.E:ce,Esh:bS?bS.E:null,pen:out.pen,to:out.lie,raw:out.raw,ev:res.ev,leave:distPin(out.x,out.y),lat:(()=>{const ax=aim[0]-st.x,ay=aim[1]-st.y,L=Math.hypot(ax,ay)||1;return((res.x-st.x)*ay-(res.y-st.y)*ax)/L})()};
   S.shots.push(shot);if(S.undo)S.undo.best=best;
   const evTxt={top:'Topped it',fat:'Hit it fat',shank:'Shank!',slice:'Big slice',hook:'Snap hook',stay:'Left it in the bunker',skull:'Skulled it'}[res.ev];
   let txt=`${club} from ${LIENAME[st.lie].toLowerCase()} → `+(out.lie==='holed'?'<b>IN THE HOLE!</b>':out.pen?`${LIENAME[out.raw]}, +1 penalty`+(out.raw==='ob'?' (replay)':' (drop)'):`${LIENAME[out.lie]}, ${fmt(distPin(out.x,out.y))} y to pin`);
