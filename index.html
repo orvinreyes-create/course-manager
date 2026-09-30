@@ -209,6 +209,7 @@ tr.tot td{font-weight:800;border-top:1px solid var(--line);background:rgba(255,2
   </div>
   <div class="bagprev" id="bagprev"></div>
   <label class="shline"><input type="checkbox" id="shOn" checked><span id="shTxt"></span></label>
+  <label class="shline"><input type="checkbox" id="autoclub"><span><b>Caddie pre-sets each shot.</b> Every shot starts with the caddie's club and aim already chosen, so you can adjust it or just hit. Leave it off to practise picking the target yourself.</span></label>
   <button class="primary big" id="go2">Choose a course →</button>
  </div>
 
@@ -225,7 +226,7 @@ tr.tot td{font-weight:800;border-top:1px solid var(--line);background:rgba(255,2
  </div>
  <div class="hidden">
   <select id="course"></select><select id="tee"><option value="back">Back</option><option value="middle" selected>Middle</option><option value="forward">Forward</option><option value="ladies">Ladies</option><option value="junior">Junior</option></select>
-  <input id="seed" type="number" value="1"><input id="wind" type="checkbox" checked><input id="autoclub" type="checkbox" checked>
+  <input id="seed" type="number" value="1"><input id="wind" type="checkbox" checked>
   <select id="tend"><option value="both" selected>both</option><option value="slice">slice</option><option value="hook">hook</option></select><select id="puttmode"><option value="real" selected>real</option><option value="exp">exp</option></select>
  </div>
 </section>
@@ -541,7 +542,8 @@ function suggest(){
  const longest=cl[0];
  if(bag[longest]>=need){const fit=[...cl].reverse().find(c=>bag[c]>=need)||longest;S.club=fit;S.aim=[...H.pin]}
  else{S.club=longest;const s0=toLocal(H,st.x,st.y).s;S.aim=toWorld(H,Math.min(s0+bag[longest],H.L-H.r-4),0)}
- S.anchor=S.club;S.aimSet=false;S.aim=[...H.pin];snapAim()}
+ S.anchor=S.club;S.aimSet=false;S.aim=[...H.pin];snapAim();
+ if(S.player.autoClub){const b=bestOption(st,120);if(b){S.caddie=b;S.club=S.anchor=b.club;S.aim=[...b.aim];S.aimSet=true}}}
 function refresh(){if(typeof document==="undefined")return;S.eval=S.aimSet?evalAim(S.ball,S.club,S.aim,250):null;renderPanel();draw()}
 function hit(){if(S.busy||!S.aimSet)return;const st={...S.ball},club=S.club,aim=[...S.aim];
  if(!allowedClubs(st.lie).includes(club))return;
